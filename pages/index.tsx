@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
@@ -27,7 +28,6 @@ export default function Home() {
     const articles = await (
       await fetch("http://13.231.5.6:4000/articles")
     ).json();
-    console.log("articles", articles);
     setArticles(articles);
     return articles;
   };
@@ -45,8 +45,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <p>
+          <Link href="/newArticle">記事を作成</Link>
+        </p>
         {articles.map((article) => {
-          return <p>{article.title}</p>;
+          return (
+            <div key={article.id} style={{ marginBottom: 20 }}>
+              <p>{article.title}</p>
+              <p>{article.text}</p>
+            </div>
+          );
         })}
       </main>
     </>
