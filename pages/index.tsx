@@ -1,16 +1,34 @@
 import Head from "next/head";
+import Link from "next/link";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export interface Tag {
+  id: number;
+  label: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Article {
+  id: number;
+  title: string;
+  text: string;
+  createdAt: Date;
+  updatedAt: Date;
+  tags: Tag[];
+}
+
 export default function Home() {
+  const [articles, setArticles] = useState<Article[]>([]);
   const getArticles = async () => {
     const articles = await (
       await fetch("http://13.231.5.6:4000/articles")
     ).json();
-    console.log("articles", articles);
+    setArticles(articles);
     return articles;
   };
 
@@ -26,19 +44,18 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <p>ああああああ</p>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div></div>
-        </div>
-
-        <div className={styles.center}>
-          <div className={styles.thirteen}></div>
-        </div>
+      <main>
+        <p>
+          <Link href="/newArticle">記事を作成</Link>
+        </p>
+        {articles.map((article) => {
+          return (
+            <div key={article.id} style={{ marginBottom: 20 }}>
+              <p>{article.title}</p>
+              <p>{article.text}</p>
+            </div>
+          );
+        })}
       </main>
     </>
   );
