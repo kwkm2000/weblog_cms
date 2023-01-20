@@ -2,17 +2,25 @@ import styles from "../styles/Home.module.css";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 
+export interface Tag {
+  id: number;
+  label: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export default function NewArticle() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [checkedTagIds, setCheckedTagIds] = useState<number[]>([]);
   const onSubmit = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
       const data = {
         title,
         text,
-        tagIds: [1, 2],
+        tagIds: checkedTagIds,
       };
       fetch("http://13.231.5.6:4000/articles", {
         headers: {
@@ -37,9 +45,19 @@ export default function NewArticle() {
     },
     []
   );
+  const onChangeTagId = useCallback(
+    (id: number) => {
+      if (!checkedTagIds.includes(id)) {
+        setCheckedTagIds([...checkedTagIds, id]);
+      } else {
+        setCheckedTagIds(checkedTagIds.filter((tagId) => tagId !== id));
+      }
+    },
+    [checkedTagIds]
+  );
   const fetchAndSetTags = useCallback(async () => {
     const tagsResponse = await fetch("http://13.231.5.6:4000/tags");
-    const tags = await tagsResponse.json();
+    const tags: Tag[] = await tagsResponse.json();
 
     setTags(tags);
   }, []);
@@ -59,10 +77,16 @@ export default function NewArticle() {
           <textarea name="" id="" cols="30" rows="10" onChange={onChangeText} />
         </div>
         <div>
-          {tags.map((tag) => {
+          {tags.map((tag: Tag) => {
             return (
-              <label key={tag.id} htmlFor="">
-                <input type="checkbox" value={tag.id} />
+              <label key={tag.id}>
+                <input
+                  type="checkbox"
+                  value={tag.id}
+                  onChange={() => {
+                    onChangeTagId(tag.id);
+                  }}
+                />
                 {tag.label}
               </label>
             );
