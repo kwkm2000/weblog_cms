@@ -46,7 +46,10 @@ export default function Home() {
       </Head>
       <main>
         <p>
-          <Link href="/newArticle">記事を作成</Link>
+          <Link href="/article/new">記事を作成</Link>
+        </p>
+        <p>
+          <Link href="/tag/new">タグを追加</Link>
         </p>
         {articles.map((article) => {
           return (

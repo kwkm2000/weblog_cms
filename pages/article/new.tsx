@@ -9,7 +9,7 @@ export interface Tag {
   updatedAt: Date;
 }
 
-export default function NewArticle() {
+export default function ArticleNew() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
