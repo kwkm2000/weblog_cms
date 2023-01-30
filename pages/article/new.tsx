@@ -1,6 +1,8 @@
 import styles from "../styles/Home.module.css";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+// import ArticleEditor from "../../components/ArticleEditor";
+import dynamic from "next/dynamic";
 
 export interface Tag {
   id: number;
@@ -61,6 +63,10 @@ export default function ArticleNew() {
 
     setTags(tags);
   }, []);
+  const ArticleEditor = dynamic(
+    () => import("../../components/ArticleEditor"),
+    { ssr: false } // ssr が無効になる
+  );
 
   useEffect(() => {
     fetchAndSetTags();
@@ -73,9 +79,10 @@ export default function ArticleNew() {
         <div>
           <input type="text" onChange={onChangeTitle} />
         </div>
-        <div>
+        <ArticleEditor />
+        {/* <div>
           <textarea name="" id="" cols="30" rows="10" onChange={onChangeText} />
-        </div>
+        </div> */}
         <div>
           {tags.map((tag: Tag) => {
             return (
