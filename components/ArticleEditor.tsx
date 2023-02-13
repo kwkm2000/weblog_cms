@@ -1,8 +1,13 @@
 import React from "react";
-import { Editor, EditorState, convertToRaw } from "draft-js";
+import { Editor, EditorState, convertToRaw, RichUtils } from "draft-js";
 import "draft-js/dist/Draft.css";
 
-export default function ArticleEditor() {
+interface Props {
+  onChangeText: (text: string) => void;
+}
+
+export default function ArticleEditor(props: Props) {
+  const { onChangeText } = props;
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
   );
@@ -15,12 +20,35 @@ export default function ArticleEditor() {
   }
   const onPress = React.useCallback(() => {
     const contentState = editorState.getCurrentContent();
-
     const raw = convertToRaw(contentState);
-    console.log("raw", raw);
 
-    console.log(JSON.stringify(raw, null, 2));
-  }, [editorState]);
+    console.log("raw", raw);
+    console.log("JSON", JSON.stringify(raw, null, 2));
+    console.log(console.log("JSON", JSON.stringify(raw, null, 2)));
+
+    onChangeText(JSON.stringify(raw, null, 2));
+  }, [editorState, onChangeText]);
+  const toggleBold = React.useCallback(
+    (e: React.SyntheticEvent) => {
+      e.preventDefault();
+      setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"));
+    },
+    [setEditorState, RichUtils, editorState]
+  );
+  const toggleHeaderOne = React.useCallback(
+    (e: React.SyntheticEvent) => {
+      e.preventDefault();
+      setEditorState(RichUtils.toggleBlockType(editorState, "header-one"));
+    },
+    [setEditorState, RichUtils, editorState]
+  );
+  const toggleHeaderTwo = React.useCallback(
+    (e: React.SyntheticEvent) => {
+      e.preventDefault();
+      setEditorState(RichUtils.toggleBlockType(editorState, "header-two"));
+    },
+    [setEditorState, RichUtils, editorState]
+  );
 
   return (
     <>
@@ -35,7 +63,18 @@ export default function ArticleEditor() {
           placeholder="Write something!"
         />
       </div>
-      <button onClick={onPress}>Save</button>
+      <div>
+        <button onClick={onPress}>Save</button>
+      </div>
+      <div>
+        <button onClick={toggleBold}>Bold</button>
+      </div>
+      <div>
+        <button onClick={toggleHeaderOne}>h1</button>
+      </div>
+      <div>
+        <button onClick={toggleHeaderTwo}>h2</button>
+      </div>
     </>
   );
 }

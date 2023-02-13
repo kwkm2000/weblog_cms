@@ -34,19 +34,17 @@ export default function ArticleNew() {
     },
     [title, text]
   );
-  const onChangeTitle = useCallback((e: React.FormEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-
-    setTitle(value);
-  }, []);
-  const onChangeText = useCallback(
-    (e: React.FormEvent<HTMLTextAreaElement>) => {
+  const onChangeTitle = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
       const { value } = e.currentTarget;
 
-      setText(value);
+      setTitle(value);
     },
-    []
+    [setTitle]
   );
+  const onChangeText = useCallback((text: string) => {
+    setText(text);
+  }, []);
   const onChangeTagId = useCallback(
     (id: number) => {
       if (!checkedTagIds.includes(id)) {
@@ -77,13 +75,14 @@ export default function ArticleNew() {
       <h1>New Article</h1>
       <form onSubmit={onSubmit}>
         <div>
-          <input type="text" onChange={onChangeTitle} />
+          <input type="text" value={title} onChange={onChangeTitle} />
         </div>
-        <ArticleEditor />
+        <ArticleEditor onChangeText={onChangeText} />
         {/* <div>
           <textarea name="" id="" cols="30" rows="10" onChange={onChangeText} />
         </div> */}
         <div>
+          <p>Tag</p>
           {tags.map((tag: Tag) => {
             return (
               <label key={tag.id}>
