@@ -11,6 +11,11 @@ export interface Tag {
   updatedAt: Date;
 }
 
+export interface ArticleText {
+  blocks: Object;
+  entityMap: Object;
+}
+
 export default function ArticleNew() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -24,7 +29,8 @@ export default function ArticleNew() {
         text,
         tagIds: checkedTagIds,
       };
-      fetch("http://13.231.5.6:4000/articles", {
+      // fetch("http://13.231.5.6:4000/articles", {
+      fetch("http://localhost:4000/articles", {
         headers: {
           "Content-type": "application/json",
         },

@@ -18,16 +18,21 @@ export default function ArticleEditor(props: Props) {
     }
     editor.current.focus();
   }
-  const onPress = React.useCallback(() => {
+  const onSave = React.useCallback(() => {
     const contentState = editorState.getCurrentContent();
     const raw = convertToRaw(contentState);
 
     console.log("raw", raw);
-    console.log("JSON", JSON.stringify(raw, null, 2));
-    console.log(console.log("JSON", JSON.stringify(raw, null, 2)));
+    console.log("JSONString", JSON.stringify(raw, null, 2));
 
     onChangeText(JSON.stringify(raw, null, 2));
   }, [editorState, onChangeText]);
+  const onChange = React.useCallback(
+    (editorState: EditorState) => {
+      setEditorState(editorState);
+    },
+    [setEditorState]
+  );
   const toggleBold = React.useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
@@ -64,7 +69,7 @@ export default function ArticleEditor(props: Props) {
         />
       </div>
       <div>
-        <button onClick={onPress}>Save</button>
+        <button onClick={onSave}>Save</button>
       </div>
       <div>
         <button onClick={toggleBold}>Bold</button>
