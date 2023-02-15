@@ -13,10 +13,25 @@ export interface Tag {
   updatedAt: Date;
 }
 
+interface Text {
+  blocks: [
+    {
+      key: string;
+      text: string;
+      type: string;
+      depth: number;
+      inlineStyleRanges: [];
+      entityRanges: [];
+      data: {};
+    }
+  ];
+  entityMap: {};
+}
+
 export interface Article {
   id: number;
   title: string;
-  text: string;
+  text: Text;
   createdAt: Date;
   updatedAt: Date;
   tags: Tag[];
@@ -26,7 +41,7 @@ export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
   const getArticles = async () => {
     const articles = await (
-      await fetch("http://13.231.5.6:4000/articles")
+      await fetch("http://localhost:4000/articles")
     ).json();
     setArticles(articles);
     return articles;
@@ -55,7 +70,6 @@ export default function Home() {
           return (
             <div key={article.id} style={{ marginBottom: 20 }}>
               <p>{article.title}</p>
-              <p>{article.text}</p>
             </div>
           );
         })}

@@ -1,12 +1,19 @@
 import styles from "../styles/Home.module.css";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import ArticleEditor from "../../components/ArticleEditor";
+import dynamic from "next/dynamic";
 
 export interface Tag {
   id: number;
   label: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface ArticleText {
+  blocks: Object;
+  entityMap: Object;
 }
 
 export default function ArticleNew() {
@@ -22,7 +29,8 @@ export default function ArticleNew() {
         text,
         tagIds: checkedTagIds,
       };
-      fetch("http://13.231.5.6:4000/articles", {
+      // fetch("http://13.231.5.6:4000/articles", {
+      fetch("http://localhost:4000/articles", {
         headers: {
           "Content-type": "application/json",
         },
@@ -32,19 +40,17 @@ export default function ArticleNew() {
     },
     [title, text]
   );
-  const onChangeTitle = useCallback((e: React.FormEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-
-    setTitle(value);
-  }, []);
-  const onChangeText = useCallback(
-    (e: React.FormEvent<HTMLTextAreaElement>) => {
+  const onChangeTitle = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
       const { value } = e.currentTarget;
 
-      setText(value);
+      setTitle(value);
     },
-    []
+    [setTitle]
   );
+  const onChangeText = useCallback((text: string) => {
+    setText(text);
+  }, []);
   const onChangeTagId = useCallback(
     (id: number) => {
       if (!checkedTagIds.includes(id)) {
@@ -61,6 +67,13 @@ export default function ArticleNew() {
 
     setTags(tags);
   }, []);
+  // const ArticleEditor = dynamic(
+  //   () => import("../../components/ArticleEditor"),
+  //   { ssr: false } // ssr が無効になる
+  // );
+  // const ArticleEditor = dynamic(import("../../components/ArticleEditor"), {
+  //   ssr: false,
+  // });
 
   useEffect(() => {
     fetchAndSetTags();
@@ -71,12 +84,14 @@ export default function ArticleNew() {
       <h1>New Article</h1>
       <form onSubmit={onSubmit}>
         <div>
-          <input type="text" onChange={onChangeTitle} />
+          <input type="text" value={title} onChange={onChangeTitle} />
         </div>
-        <div>
+        <ArticleEditor onChangeText={onChangeText} />
+        {/* <div>
           <textarea name="" id="" cols="30" rows="10" onChange={onChangeText} />
-        </div>
+        </div> */}
         <div>
+          <p>Tag</p>
           {tags.map((tag: Tag) => {
             return (
               <label key={tag.id}>
