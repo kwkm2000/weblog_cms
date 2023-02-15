@@ -1,6 +1,7 @@
 import React from "react";
 import { Editor, EditorState, convertToRaw, RichUtils } from "draft-js";
 import "draft-js/dist/Draft.css";
+import ArticlePreview from "./ArticlePreview";
 
 interface Props {
   onChangeText: (text: string) => void;
@@ -24,7 +25,6 @@ export default function ArticleEditor(props: Props) {
     const raw = convertToRaw(contentState);
 
     console.log("raw", raw);
-    console.log("JSONString", JSON.stringify(raw, null, 2));
 
     onChangeText(JSON.stringify(raw, null, 2));
   }, [editorState, onChangeText]);
@@ -93,6 +93,7 @@ export default function ArticleEditor(props: Props) {
           </div>
         </>
       )}
+      <ArticlePreview text={convertToRaw(editorState.getCurrentContent())} />
     </>
   );
 }
