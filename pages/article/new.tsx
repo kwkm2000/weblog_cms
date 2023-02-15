@@ -1,7 +1,7 @@
 import styles from "../styles/Home.module.css";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-// import ArticleEditor from "../../components/ArticleEditor";
+import ArticleEditor from "../../components/ArticleEditor";
 import dynamic from "next/dynamic";
 
 export interface Tag {
@@ -67,10 +67,13 @@ export default function ArticleNew() {
 
     setTags(tags);
   }, []);
-  const ArticleEditor = dynamic(
-    () => import("../../components/ArticleEditor"),
-    { ssr: false } // ssr が無効になる
-  );
+  // const ArticleEditor = dynamic(
+  //   () => import("../../components/ArticleEditor"),
+  //   { ssr: false } // ssr が無効になる
+  // );
+  // const ArticleEditor = dynamic(import("../../components/ArticleEditor"), {
+  //   ssr: false,
+  // });
 
   useEffect(() => {
     fetchAndSetTags();

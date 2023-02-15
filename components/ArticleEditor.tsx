@@ -7,6 +7,7 @@ interface Props {
 }
 
 export default function ArticleEditor(props: Props) {
+  const [editorEnable, setEditorEnable] = React.useState(false);
   const { onChangeText } = props;
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
@@ -55,31 +56,43 @@ export default function ArticleEditor(props: Props) {
     [setEditorState, RichUtils, editorState]
   );
 
+  React.useEffect(() => {
+    setEditorEnable(true);
+  }, []);
+
   return (
     <>
-      <div
-        style={{ border: "1px solid white", minHeight: "6em", cursor: "text" }}
-        onClick={focusEditor}
-      >
-        <Editor
-          ref={editor}
-          editorState={editorState}
-          onChange={setEditorState}
-          placeholder="Write something!"
-        />
-      </div>
-      <div>
-        <button onClick={onSave}>Save</button>
-      </div>
-      <div>
-        <button onClick={toggleBold}>Bold</button>
-      </div>
-      <div>
-        <button onClick={toggleHeaderOne}>h1</button>
-      </div>
-      <div>
-        <button onClick={toggleHeaderTwo}>h2</button>
-      </div>
+      {editorEnable && (
+        <>
+          <div
+            style={{
+              border: "1px solid red",
+              minHeight: "6em",
+              cursor: "text",
+            }}
+            onClick={focusEditor}
+          >
+            <Editor
+              ref={editor}
+              editorState={editorState}
+              onChange={setEditorState}
+              placeholder="Write something!"
+            />
+          </div>
+          <div>
+            <button onClick={onSave}>Save</button>
+          </div>
+          <div>
+            <button onClick={toggleBold}>Bold</button>
+          </div>
+          <div>
+            <button onClick={toggleHeaderOne}>h1</button>
+          </div>
+          <div>
+            <button onClick={toggleHeaderTwo}>h2</button>
+          </div>
+        </>
+      )}
     </>
   );
 }
