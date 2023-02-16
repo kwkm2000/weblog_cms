@@ -1,4 +1,5 @@
 import { RawDraftContentState } from "draft-js";
+import * as Tag from "./tag";
 
 export interface Model {
   readonly id: number;
@@ -6,5 +7,5 @@ export interface Model {
   readonly text: RawDraftContentState;
   readonly createdAt: Date;
   readonly updatedAt: Date;
-  tags: [];
+  readonly tags: Tag.Model[];
 }
