@@ -69,7 +69,9 @@ export default function Home() {
         {articles.map((article) => {
           return (
             <div key={article.id} style={{ marginBottom: 20 }}>
-              <p>{article.title}</p>
+              <p>
+                <Link href={`/article/${article.id}`}>{article.title}</Link>
+              </p>
             </div>
           );
         })}
