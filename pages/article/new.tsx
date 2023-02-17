@@ -1,41 +1,28 @@
-import styles from "../styles/Home.module.css";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import ArticleEditor from "../../components/ArticleEditor";
-
-export interface Tag {
-  id: number;
-  label: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface ArticleText {
-  blocks: Object;
-  entityMap: Object;
-}
+import { Articles } from "../../domain/repositories";
+import { Tag } from "../../domain/models";
 
 export default function ArticleNew() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<Tag.Model[]>([]);
   const [checkedTagIds, setCheckedTagIds] = useState<number[]>([]);
   const onSubmit = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-      const data = {
+      const data: Articles.createValue = {
         title,
         text,
         tagIds: checkedTagIds,
       };
-      // fetch("http://13.231.5.6:4000/articles", {
-      fetch("http://localhost:4000/articles", {
-        headers: {
-          "Content-type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(data),
-      });
+
+      if (!title.length) {
+        alert("titleがからです！");
+        return;
+      }
+      Articles.create(data);
     },
     [title, text]
   );
@@ -62,7 +49,7 @@ export default function ArticleNew() {
   );
   const fetchAndSetTags = useCallback(async () => {
     const tagsResponse = await fetch("http://13.231.5.6:4000/tags");
-    const tags: Tag[] = await tagsResponse.json();
+    const tags: Tag.Model[] = await tagsResponse.json();
 
     setTags(tags);
   }, []);
@@ -82,7 +69,7 @@ export default function ArticleNew() {
 
         <div>
           <p>Tag</p>
-          {tags.map((tag: Tag) => {
+          {tags.map((tag: Tag.Model) => {
             return (
               <label key={tag.id}>
                 <input

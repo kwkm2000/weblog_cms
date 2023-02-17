@@ -9,3 +9,5 @@ export interface Model {
   readonly updatedAt: Date;
   readonly tags: Tag.Model[];
 }
+
+export type Value = Pick<Model, "title" | "text" | "tags">;

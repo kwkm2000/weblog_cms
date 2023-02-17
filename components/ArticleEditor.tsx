@@ -20,20 +20,6 @@ export default function ArticleEditor(props: Props) {
     }
     editor.current.focus();
   }
-  const onSave = React.useCallback(() => {
-    const contentState = editorState.getCurrentContent();
-    const raw = convertToRaw(contentState);
-
-    console.log("raw", raw);
-
-    onChangeText(JSON.stringify(raw, null, 2));
-  }, [editorState, onChangeText]);
-  const onChange = React.useCallback(
-    (editorState: EditorState) => {
-      setEditorState(editorState);
-    },
-    [setEditorState]
-  );
   const toggleBold = React.useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
@@ -55,6 +41,15 @@ export default function ArticleEditor(props: Props) {
     },
     [setEditorState, RichUtils, editorState]
   );
+  const onChange = React.useCallback(
+    (editorState: EditorState) => {
+      setEditorState(editorState);
+      const contentState = editorState.getCurrentContent();
+      const raw = convertToRaw(contentState);
+      onChangeText(JSON.stringify(raw, null, 2));
+    },
+    [setEditorState]
+  );
 
   React.useEffect(() => {
     setEditorEnable(true);
@@ -75,12 +70,9 @@ export default function ArticleEditor(props: Props) {
             <Editor
               ref={editor}
               editorState={editorState}
-              onChange={setEditorState}
+              onChange={onChange}
               placeholder="Write something!"
             />
-          </div>
-          <div>
-            <button onClick={onSave}>Save</button>
           </div>
           <div>
             <button onClick={toggleBold}>Bold</button>
