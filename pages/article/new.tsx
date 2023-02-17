@@ -11,7 +11,6 @@ export default function ArticleNew() {
   const [checkedTagIds, setCheckedTagIds] = useState<number[]>([]);
   const onSubmit = useCallback(
     (e: React.SyntheticEvent) => {
-      console.log("submit!!!!");
       e.preventDefault();
       const data: Articles.createValue = {
         title,
@@ -19,6 +18,10 @@ export default function ArticleNew() {
         tagIds: checkedTagIds,
       };
 
+      if (!title.length) {
+        alert("titleがからです！");
+        return;
+      }
       Articles.create(data);
     },
     [title, text]
