@@ -1,10 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export interface Tag {
   id: number;

@@ -2,32 +2,19 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import * as Article from "../../domain/models/article";
+import { Articles } from "../../domain/repositories";
 
 export default function ArticleDetail() {
   const router = useRouter();
   const [id, setId] = React.useState<string>();
   const [article, setArticle] = React.useState<Article.Model>();
   const getArticle = async () => {
-    const article: Article.Model = await (
-      await fetch(`http://localhost:4000/articles/${id}`)
-    ).json();
+    const article = await Articles.getOne(Number(id));
     setArticle(article);
   };
   const removeArticle = React.useCallback(async () => {
-    console.log("id", id);
-
-    try {
-      await fetch(`http://localhost:4000/articles/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
-      router.push("/");
-    } catch (error) {
-      console.log("DELETE Error");
-      console.error(error);
-    }
+    Articles.remove(Number(id));
+    router.push("/");
   }, [id, router]);
 
   React.useEffect(() => {

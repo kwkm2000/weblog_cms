@@ -20,19 +20,15 @@ export default function ArticleEditor(props: Props) {
     }
     editor.current.focus();
   }
-  const onSave = React.useCallback(() => {
-    const contentState = editorState.getCurrentContent();
-    const raw = convertToRaw(contentState);
+  const onSave = React.useCallback(
+    (e: React.SyntheticEvent) => {
+      e.preventDefault;
+      const contentState = editorState.getCurrentContent();
+      const raw = convertToRaw(contentState);
 
-    console.log("raw", raw);
-
-    onChangeText(JSON.stringify(raw, null, 2));
-  }, [editorState, onChangeText]);
-  const onChange = React.useCallback(
-    (editorState: EditorState) => {
-      setEditorState(editorState);
+      onChangeText(JSON.stringify(raw, null, 2));
     },
-    [setEditorState]
+    [editorState, onChangeText]
   );
   const toggleBold = React.useCallback(
     (e: React.SyntheticEvent) => {
