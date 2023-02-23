@@ -1,45 +1,13 @@
 import Head from "next/head";
 import Link from "next/link";
-import { Inter } from "@next/font/google";
 import { useEffect, useState } from "react";
-
-export interface Tag {
-  id: number;
-  label: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-interface Text {
-  blocks: [
-    {
-      key: string;
-      text: string;
-      type: string;
-      depth: number;
-      inlineStyleRanges: [];
-      entityRanges: [];
-      data: {};
-    }
-  ];
-  entityMap: {};
-}
-
-export interface Article {
-  id: number;
-  title: string;
-  text: Text;
-  createdAt: Date;
-  updatedAt: Date;
-  tags: Tag[];
-}
+import { Articles } from "../domain/repositories";
+import { Article } from "../domain/models";
 
 export default function Home() {
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<Article.Model[]>([]);
   const getArticles = async () => {
-    const articles = await (
-      await fetch("http://localhost:4000/articles")
-    ).json();
+    const articles = await Articles.getALl();
     setArticles(articles);
     return articles;
   };
