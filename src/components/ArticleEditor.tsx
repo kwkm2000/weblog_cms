@@ -13,7 +13,7 @@ export default function ArticleEditor(props: Props) {
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
   );
-  const editor = React.useRef(null);
+  const editor = React.useRef<any>(null);
   function focusEditor() {
     if (!editor.current) {
       return;
@@ -25,21 +25,21 @@ export default function ArticleEditor(props: Props) {
       e.preventDefault();
       setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"));
     },
-    [setEditorState, RichUtils, editorState]
+    [setEditorState, editorState]
   );
   const toggleHeaderOne = React.useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
       setEditorState(RichUtils.toggleBlockType(editorState, "header-one"));
     },
-    [setEditorState, RichUtils, editorState]
+    [setEditorState, editorState]
   );
   const toggleHeaderTwo = React.useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
       setEditorState(RichUtils.toggleBlockType(editorState, "header-two"));
     },
-    [setEditorState, RichUtils, editorState]
+    [setEditorState, editorState]
   );
   const onChange = React.useCallback(
     (editorState: EditorState) => {
@@ -48,7 +48,7 @@ export default function ArticleEditor(props: Props) {
       const raw = convertToRaw(contentState);
       onChangeText(JSON.stringify(raw, null, 2));
     },
-    [setEditorState]
+    [onChangeText]
   );
 
   React.useEffect(() => {
