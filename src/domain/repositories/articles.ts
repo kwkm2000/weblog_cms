@@ -1,6 +1,6 @@
 import { Article, Articles } from "../models";
 
-const url = "http://localhost:4000";
+const url = "http://13.231.5.6:4000";
 
 export interface createValue {
   title: string;
@@ -30,9 +30,9 @@ export async function getOne(id: number) {
   }
 }
 
-export function create(value: createValue) {
+export async function create(value: createValue) {
   try {
-    fetch(`${url}/articles`, {
+    await fetch(`${url}/articles`, {
       headers: {
         "Content-type": "application/json",
       },

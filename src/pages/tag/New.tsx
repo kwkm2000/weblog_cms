@@ -1,6 +1,5 @@
-import styles from "../styles/Home.module.css";
 import React, { useState, useCallback } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 export interface Tag {
   id: number;
@@ -50,7 +49,7 @@ export default function TagNew() {
         <button>Submit</button>
       </form>
       <p>
-        <Link href="/">Topへ</Link>
+        <Link to="/">Topへ</Link>
       </p>
     </main>
   );

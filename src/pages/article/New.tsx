@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react";
-import Link from "next/link";
+import { Link, useNavigate } from "react-router-dom";
 import ArticleEditor from "../../components/ArticleEditor";
 import { Articles } from "../../domain/repositories";
 import { Tag } from "../../domain/models";
 
-export default function ArticleNew() {
+function ArticleNew() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [tags, setTags] = useState<Tag.Model[]>([]);
   const [checkedTagIds, setCheckedTagIds] = useState<number[]>([]);
   const onSubmit = useCallback(
-    (e: React.SyntheticEvent) => {
+    async (e: React.SyntheticEvent) => {
       e.preventDefault();
       const data: Articles.createValue = {
         title,
@@ -22,9 +23,10 @@ export default function ArticleNew() {
         alert("titleがからです！");
         return;
       }
-      Articles.create(data);
+      await Articles.create(data);
+      navigate("/");
     },
-    [title, text]
+    [title, text, navigate, checkedTagIds]
   );
   const onChangeTitle = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
@@ -56,7 +58,7 @@ export default function ArticleNew() {
 
   useEffect(() => {
     fetchAndSetTags();
-  }, []);
+  }, [fetchAndSetTags]);
 
   return (
     <main>
@@ -87,8 +89,10 @@ export default function ArticleNew() {
         <button>Submit</button>
       </form>
       <p>
-        <Link href="/">Topへ</Link>
+        <Link to={"/article/1"}>Topへ</Link>
       </p>
     </main>
   );
 }
+
+export default ArticleNew;
