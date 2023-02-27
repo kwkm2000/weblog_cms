@@ -1,5 +1,5 @@
 import { RawDraftContentState } from "draft-js";
-import * as Tag from "./tag";
+import * as Tag from "../../../domain/models/tag";
 
 export interface Model {
   readonly id: number;
