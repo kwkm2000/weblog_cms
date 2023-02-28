@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import * as Article from "../../features/articles/models/article";
+import * as Article from "../../features/articles/domain/models/article";
 import { Articles } from "../../domain/repositories";
 
 function ArticleDetail() {

@@ -1,5 +1,5 @@
-import * as Article from "../../features/articles/models/article";
-import * as Articles from "../../pages/article/articles";
+import * as Article from "../../features/articles/domain/models/article";
+import * as Articles from "../../features/articles/domain/models/articles";
 import * as Tag from "./tag";
 import * as Tags from "./tags";
 

@@ -2,7 +2,7 @@
 import { useArticles } from "../api/getArticle";
 import { Link } from "react-router-dom";
 
-export default function ArticlesList() {
+export function ArticlesList() {
   const articlesQuery = useArticles();
 
   if (articlesQuery.isLoading) {
