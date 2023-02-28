@@ -8,18 +8,14 @@ export interface createValue {
   tagIds: number[];
 }
 
-export async function getALl() {
-  try {
-    const articles: Articles.Model = await (
-      await fetch(`${url}/articles`)
-    ).json();
-    return articles;
-  } catch (e) {
-    throw e;
-  }
+export async function getALl(): Promise<Articles.Model> {
+  const articles: Articles.Model = await (
+    await fetch(`${url}/articles`)
+  ).json();
+  return articles;
 }
 
-export async function getOne(id: number) {
+export async function getOne(id: number): Promise<Article.Model> {
   try {
     const article: Article.Model = await (
       await fetch(`${url}/articles/${id}`)
