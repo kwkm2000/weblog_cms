@@ -1,6 +1,7 @@
 import { Article, Articles } from "../models";
 
-const url = "http://13.231.5.6:4000";
+// const url = "http://13.231.5.6:4000";
+const url = "http://localhost:4000";
 
 export interface createValue {
   title: string;
@@ -31,31 +32,23 @@ export async function getOne(id: number): Promise<Article.Model> {
   }
 }
 
-export async function create(value: createValue) {
-  try {
-    await fetch(`${url}/articles`, {
-      headers: {
-        "Content-type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(value),
-    });
-  } catch (e) {
-    throw e;
-  }
+export async function create(value: createValue): Promise<void> {
+  await fetch(`${url}/articles`, {
+    headers: {
+      "Content-type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(value),
+  });
 }
 
 export async function update(id: number) {}
 
 export async function remove(id: number) {
-  try {
-    await fetch(`${url}/articles/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-  } catch (e) {
-    throw e;
-  }
+  await fetch(`${url}/articles/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
 }

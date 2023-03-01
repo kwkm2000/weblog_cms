@@ -1,5 +1,5 @@
 // import { useArticles } from "@features/articles/api/getArticle";
-import { useArticles } from "../api/getArticle";
+import { useArticles } from "../api/getArticles";
 import { Link } from "react-router-dom";
 
 export function ArticlesList() {
