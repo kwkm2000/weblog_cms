@@ -8,6 +8,11 @@ export interface createValue {
   tagIds: number[];
 }
 
+/**
+ * 記事をすべて取得する
+ *
+ * @returns 記事一覧のPromiseObject
+ */
 export async function getALl(): Promise<Articles.Model> {
   const articles: Articles.Model = await (
     await fetch(`${url}/articles`)

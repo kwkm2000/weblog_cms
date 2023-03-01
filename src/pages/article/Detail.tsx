@@ -2,24 +2,25 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import * as Article from "../../features/articles/models/article";
-import { Articles } from "../../domain/repositories";
+import { getOne } from "../../features/articles/repositories/articles";
+import { useRemoveArticle } from "../../features/articles/api/removeArticle";
 
 function ArticleDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [article, setArticle] = React.useState<Article.Model>();
+  const removeArticleMutation = useRemoveArticle({ id: Number(id) });
   const removeArticle = React.useCallback(async () => {
-    await Articles.remove(Number(id));
+    await removeArticleMutation.mutateAsync(Number(id));
     navigate("/");
-  }, [id, navigate]);
+  }, [id, navigate, removeArticleMutation]);
 
   React.useEffect(() => {
     if (!id) {
       return;
     }
     const getArticle = async () => {
-      console.log(id);
-      const article = await Articles.getOne(Number(id));
+      const article = await getOne(Number(id));
       setArticle(article);
     };
     getArticle();
