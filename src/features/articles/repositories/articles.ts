@@ -42,7 +42,15 @@ export async function create(value: createValue): Promise<void> {
   });
 }
 
-export async function update(id: number) {}
+export async function update(id: number, value: createValue) {
+  await fetch(`${url}/articles/${id}`, {
+    headers: {
+      "Content-type": "application/json",
+    },
+    method: "Put",
+    body: JSON.stringify(value),
+  });
+}
 
 export async function remove(id: number) {
   await fetch(`${url}/articles/${id}`, {

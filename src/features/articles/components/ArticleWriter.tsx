@@ -1,17 +1,30 @@
 import React from "react";
-import { useCreateArticle } from "../api/createArticle";
-import { useNavigate } from "react-router-dom";
 import { Articles } from "../repositories";
 import { Tag } from "../../../domain/models";
 import ArticleEditor from "./ArticleEditor";
+import { Article } from "../models";
 
-export default function ArticleCreator() {
-  const navigate = useNavigate();
-  const [text, setText] = React.useState("");
-  const [tags, setTags] = React.useState<Tag.Model[]>([]);
-  const [title, setTitle] = React.useState("");
-  const [checkedTagIds, setCheckedTagIds] = React.useState<number[]>([]);
-  const createArticlesMutation = useCreateArticle();
+/**
+ *
+ * {@label Props
+ *
+ */
+interface Props {
+  // 初期値、新規作成時は渡さず更新時に渡す、
+  initialValue?: Article.Model;
+  onCreateValue: (value: Articles.createValue) => void;
+}
+
+export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
+  const [text, setText] = React.useState(initialValue?.title || "");
+  const [tags, setTags] = React.useState<Tag.Model[]>(initialValue?.tags || []);
+  const [title, setTitle] = React.useState(initialValue?.title || "");
+  const [checkedTagIds, setCheckedTagIds] = React.useState<number[]>(() => {
+    if (initialValue) {
+      return initialValue.tags.map((tag) => tag.id);
+    }
+    return [];
+  });
   const onChangeTitle = React.useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       const { value } = e.currentTarget;
@@ -33,11 +46,9 @@ export default function ArticleCreator() {
         alert("titleがからです！");
         return;
       }
-
-      await createArticlesMutation.mutateAsync(data);
-      navigate("/");
+      onCreateValue(data);
     },
-    [title, text, navigate, checkedTagIds, createArticlesMutation]
+    [title, text, checkedTagIds, onCreateValue]
   );
   const onChangeTagId = React.useCallback(
     (id: number) => {
@@ -60,6 +71,12 @@ export default function ArticleCreator() {
     fetchAndSetTags();
   }, [fetchAndSetTags]);
 
+  React.useEffect(() => {
+    if (!initialValue) {
+      return;
+    }
+  }, [initialValue]);
+
   return (
     <form onSubmit={onSubmit}>
       <div>
@@ -69,6 +86,7 @@ export default function ArticleCreator() {
         onChangeText={(text) => {
           setText(text);
         }}
+        initialValue={initialValue?.text}
       />
 
       <div>
