@@ -5,12 +5,15 @@ import { useRemoveArticle } from "../api/removeArticle";
 import { useArticle } from "../api/getArticle";
 import { assertIsDefined } from "../../../lib/assert";
 import ArticlePreview from "./ArticlePreview";
-import ArticleEditor from "./ArticleEditor";
+import ArticleWriter from "./ArticleWriter";
+import { Articles } from "../repositories";
+import { useUpdateArticle } from "../../articles/api/upateArticle";
 
 export default function ArticleDetail() {
   const [isEditing, setIsEditing] = React.useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const useUpdateArticleMutation = useUpdateArticle();
   const removeArticleMutation = useRemoveArticle({ id: Number(id) });
   assertIsDefined(id);
   const articlesQuery = useArticle({ id: Number(id) });
@@ -18,6 +21,12 @@ export default function ArticleDetail() {
     await removeArticleMutation.mutateAsync(Number(id));
     navigate("/");
   }, [id, navigate, removeArticleMutation]);
+  const editArticle = React.useCallback(
+    async (value: Articles.CreateValue) => {
+      await useUpdateArticleMutation.mutateAsync({ id: Number(id), value });
+    },
+    [useUpdateArticleMutation, id]
+  );
 
   if (articlesQuery.isLoading) {
     return <p>loading...</p>;
@@ -29,26 +38,22 @@ export default function ArticleDetail() {
 
   return (
     <>
-      {isEditing ? (
-        <input type="text" value={articlesQuery.data.title} />
-      ) : (
-        <h2>{articlesQuery.data.title}</h2>
-      )}
-
-      {isEditing ? (
-        <ArticleEditor
-          initialValue={articlesQuery.data.text}
-          onChangeText={(text) => {
-            console.log(text);
-          }}
-        />
-      ) : (
-        <ArticlePreview text={articlesQuery.data.text} />
-      )}
-
       <div>
         <button onClick={removeArticle}>削除</button>
       </div>
+
+      {isEditing ? (
+        <ArticleWriter
+          onCreateValue={editArticle}
+          initialValue={articlesQuery.data}
+        />
+      ) : (
+        <>
+          <h2>{articlesQuery.data.title}</h2>
+          <ArticlePreview text={articlesQuery.data.text} />
+        </>
+      )}
+
       {isEditing ? (
         <div>
           <button

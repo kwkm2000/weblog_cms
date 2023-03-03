@@ -12,11 +12,11 @@ import { Article } from "../models";
 interface Props {
   // 初期値、新規作成時は渡さず更新時に渡す、
   initialValue?: Article.Model;
-  onCreateValue: (value: Articles.createValue) => void;
+  onCreateValue: (value: Articles.CreateValue) => void;
 }
 
 export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
-  const [text, setText] = React.useState(initialValue?.title || "");
+  const [text, setText] = React.useState(initialValue?.text);
   const [tags, setTags] = React.useState<Tag.Model[]>(initialValue?.tags || []);
   const [title, setTitle] = React.useState(initialValue?.title || "");
   const [checkedTagIds, setCheckedTagIds] = React.useState<number[]>(() => {
@@ -36,7 +36,12 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
   const onSubmit = React.useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault();
-      const data: Articles.createValue = {
+
+      if (!text) {
+        throw Error;
+      }
+
+      const data: Articles.CreateValue = {
         title,
         text,
         tagIds: checkedTagIds,

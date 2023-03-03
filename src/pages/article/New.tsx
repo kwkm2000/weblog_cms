@@ -9,7 +9,7 @@ export default function ArticleNewPage() {
   const navigate = useNavigate();
   const createArticlesMutation = useCreateArticle();
   const createArticle = React.useCallback(
-    async (value: Articles.createValue) => {
+    async (value: Articles.CreateValue) => {
       await createArticlesMutation.mutateAsync(value);
       navigate("/");
     },

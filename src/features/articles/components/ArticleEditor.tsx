@@ -11,7 +11,7 @@ import "draft-js/dist/Draft.css";
 import ArticlePreview from "./ArticlePreview";
 
 interface Props {
-  onChangeText: (text: string) => void;
+  onChangeText: (text: RawDraftContentState) => void;
   initialValue?: RawDraftContentState;
 }
 
@@ -52,10 +52,10 @@ export default function ArticleEditor(props: Props) {
   const onChange = React.useCallback(
     (editorState: EditorState) => {
       setEditorState(editorState);
-      console.log("editorState", editorState);
+
       const contentState = editorState.getCurrentContent();
       const raw = convertToRaw(contentState);
-      onChangeText(JSON.stringify(raw, null, 2));
+      onChangeText(raw);
     },
     [onChangeText]
   );
