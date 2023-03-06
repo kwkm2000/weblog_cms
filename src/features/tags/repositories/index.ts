@@ -1,3 +1,3 @@
-// import * as Tags from "./tags";
+import * as Tags from "./tags";
 
-export {};
+export { Tags };

@@ -1,5 +1,5 @@
 import { Tag } from "@/features/tags/models";
-import axios from "axios";
+import { axios } from "@/lib/axios";
 
 // // const url = "http://13.231.5.6:4000";
 const url = "http://localhost:4000";
@@ -9,8 +9,8 @@ const url = "http://localhost:4000";
  *
  * @returns タグのPromiseObject
  */
-export async function getALl(): Promise<Tag.Model[]> {
-  return await axios.get(`${url}/tags`);
+export function getALl(): Promise<Tag.Model[]> {
+  return axios.get(`${url}/tags`);
 }
 
 export async function getOne(id: Tag.Model["id"]): Promise<Tag.Model> {
