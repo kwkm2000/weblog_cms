@@ -1,36 +1,18 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-
-export interface Tag {
-  id: number;
-  label: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { useCreateTag } from "@/features/tags/api/createTag";
+import TagList from "@/features/tags/components/TagList";
 
 export default function TagNew() {
   const [label, setLabel] = useState("");
-  const onSubmit = useCallback(
-    (e: React.SyntheticEvent) => {
+  const createTagMutation = useCreateTag();
+  const createTag = useCallback(
+    async (e: React.SyntheticEvent) => {
       e.preventDefault();
-      const data = {
-        label,
-      };
-      fetch("http://13.231.5.6:4000/tags", {
-        headers: {
-          "Content-type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(data),
-      })
-        .then(() => {
-          setLabel("");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      await createTagMutation.mutateAsync(label);
+      setLabel("");
     },
-    [label]
+    [label, createTagMutation]
   );
   const onChange = useCallback((e: React.FormEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
@@ -41,10 +23,11 @@ export default function TagNew() {
   return (
     <main>
       <h1>New Tag</h1>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={createTag}>
         <div>
-          <input type="text" onChange={onChange} />
+          <input type="text" value={label} onChange={onChange} />
         </div>
+        <TagList />
         <button>Submit</button>
       </form>
       <p>

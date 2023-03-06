@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-// import { ArticlesList } from "@/features/articles/components/ArticlesList";
-import { ArticlesList } from "./features/articles/components/ArticlesList";
+import { ArticlesList } from "@/features/articles/components/ArticlesList";
 
 function App() {
   return (

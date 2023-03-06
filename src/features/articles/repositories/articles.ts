@@ -1,4 +1,4 @@
-import { Article, Articles } from "../models";
+import { Article, Articles } from "@/features/articles/models";
 import { RawDraftContentState } from "draft-js";
 
 // const url = "http://13.231.5.6:4000";
