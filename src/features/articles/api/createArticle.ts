@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-// import { Articles } from "../repositories";
 import { Articles } from "@/features/articles/repositories";
-import { Article } from "../models";
-import { queryClient } from "../../../lib/reactQuery";
+import { Article } from "@/features/articles/models";
+import { queryClient } from "@/lib/reactQuery";
 import { QUERY_KEY } from "./queryKey";
 
 /**

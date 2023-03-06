@@ -1,24 +1,21 @@
 import { Tag } from "@/features/tags/models";
 import { axios } from "@/lib/axios";
 
-// // const url = "http://13.231.5.6:4000";
-const url = "http://localhost:4000";
-
 /**
  * タグをすべて取得する
  *
  * @returns タグのPromiseObject
  */
 export function getALl(): Promise<Tag.Model[]> {
-  return axios.get(`${url}/tags`);
+  return axios.get(`/tags`);
 }
 
 export async function getOne(id: Tag.Model["id"]): Promise<Tag.Model> {
-  return await axios.get(`${url}/tags${id}`);
+  return await axios.get(`/tags${id}`);
 }
 
 export async function create(label: Tag.Model["label"]): Promise<Tag.Model> {
-  return await axios.post(`${url}/tags`, {
+  return await axios.post(`/tags`, {
     label,
   });
 }
@@ -35,5 +32,5 @@ export async function create(label: Tag.Model["label"]): Promise<Tag.Model> {
 // }
 
 export async function remove(id: Tag.Model["id"]) {
-  return await axios.delete(`${url}/articles/${id}`);
+  return await axios.delete(`/articles/${id}`);
 }
