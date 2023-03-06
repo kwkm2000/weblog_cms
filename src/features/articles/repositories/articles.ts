@@ -1,8 +1,6 @@
 import { Article, Articles } from "@/features/articles/models";
 import { RawDraftContentState } from "draft-js";
-
-// const url = "http://13.231.5.6:4000";
-const url = "http://localhost:4000";
+import { axios } from "@/lib/axios";
 
 export interface CreateValue {
   title: Article.Model["title"];
@@ -25,51 +23,33 @@ function rawTextBlockToString(raw: RawDraftContentState) {
  * @returns 記事一覧のPromiseObject
  */
 export async function getALl(): Promise<Articles.Model> {
-  const articles: Articles.Model = await (
-    await fetch(`${url}/articles`)
-  ).json();
-  return articles;
+  return axios.get("/articles");
 }
 
 export async function getOne(id: number): Promise<Article.Model> {
-  try {
-    const article: Article.Model = await (
-      await fetch(`${url}/articles/${id}`)
-    ).json();
-    return article;
-  } catch (e) {
-    throw e;
-  }
+  return axios.get(`/articles${id}`);
 }
 
-export async function create(value: CreateValue): Promise<void> {
+export async function create(value: CreateValue): Promise<Article.Model> {
   const dto = { ...value, text: rawTextBlockToString(value.text) };
 
-  await fetch(`${url}/articles`, {
-    headers: {
-      "Content-type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify(dto),
+  return axios.post("/articles", {
+    title: dto.title,
+    text: dto.text,
+    tagIds: dto.tagIds,
   });
 }
 
 export async function update({ id, value }: UpdateValue): Promise<void> {
   const dto = { ...value, text: rawTextBlockToString(value.text) };
-  await fetch(`${url}/articles/${id}`, {
-    headers: {
-      "Content-type": "application/json",
-    },
-    method: "PUT",
-    body: JSON.stringify(dto),
+
+  return axios.put(`/articles/${id}`, {
+    title: dto.title,
+    text: dto.text,
+    tagIds: dto.tagIds,
   });
 }
 
 export async function remove(id: number) {
-  await fetch(`${url}/articles/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-type": "application/json",
-    },
-  });
+  return axios.delete(`/articles/${id}`);
 }

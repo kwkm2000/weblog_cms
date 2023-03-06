@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Articles } from "../repositories";
-import { Article } from "../models";
+// import { Article } from "../models";
 import { queryClient } from "../../../lib/reactQuery";
 import { QUERY_KEY } from "./queryKey";
 
@@ -13,7 +13,6 @@ export const useUpdateArticle = () => {
   return useMutation({
     mutationFn: Articles.update,
     onMutate: async (newArticleOption: UpdateArticleOptions) => {
-      console.log("newArticle", newArticleOption);
       // const newArticle: Article.Model = {
       //   id: newArticleOption.id,
 
