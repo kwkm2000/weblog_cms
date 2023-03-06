@@ -7,7 +7,7 @@ import { assertIsDefined } from "../../../lib/assert";
 import ArticlePreview from "./ArticlePreview";
 import ArticleWriter from "./ArticleWriter";
 import { Articles } from "../repositories";
-import { useUpdateArticle } from "../../articles/api/upateArticle";
+import { useUpdateArticle } from "../api/updateArticle";
 
 export default function ArticleDetail() {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -24,6 +24,7 @@ export default function ArticleDetail() {
   const editArticle = React.useCallback(
     async (value: Articles.CreateValue) => {
       await useUpdateArticleMutation.mutateAsync({ id: Number(id), value });
+      setIsEditing(false);
     },
     [useUpdateArticleMutation, id]
   );
@@ -61,7 +62,7 @@ export default function ArticleDetail() {
               setIsEditing(false);
             }}
           >
-            確定
+            キャンセル
           </button>
         </div>
       ) : (
