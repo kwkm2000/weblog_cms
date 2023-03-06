@@ -1,8 +1,8 @@
 import React from "react";
 import { Articles } from "../repositories";
-import { Tag } from "@/features/tags/models";
-import ArticleEditor from "./ArticleEditor";
 import { Article } from "../models";
+import ArticleEditor from "./ArticleEditor";
+import TagList from "@/features/tags/components/TagList";
 
 /**
  *
@@ -17,9 +17,8 @@ interface Props {
 
 export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
   const [text, setText] = React.useState(initialValue?.text);
-  const [tags, setTags] = React.useState<Tag.Model[]>(initialValue?.tags || []);
   const [title, setTitle] = React.useState(initialValue?.title || "");
-  const [checkedTagIds, setCheckedTagIds] = React.useState<number[]>(() => {
+  const [checkedTagIds] = React.useState<number[]>(() => {
     if (initialValue) {
       return initialValue.tags.map((tag) => tag.id);
     }
@@ -55,32 +54,6 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
     },
     [title, text, checkedTagIds, onCreateValue]
   );
-  const onChangeTagId = React.useCallback(
-    (id: number) => {
-      if (!checkedTagIds.includes(id)) {
-        setCheckedTagIds([...checkedTagIds, id]);
-      } else {
-        setCheckedTagIds(checkedTagIds.filter((tagId) => tagId !== id));
-      }
-    },
-    [checkedTagIds]
-  );
-  const fetchAndSetTags = React.useCallback(async () => {
-    const tagsResponse = await fetch("http://13.231.5.6:4000/tags");
-    const tags: Tag.Model[] = await tagsResponse.json();
-
-    setTags(tags);
-  }, []);
-
-  React.useEffect(() => {
-    fetchAndSetTags();
-  }, [fetchAndSetTags]);
-
-  React.useEffect(() => {
-    if (!initialValue) {
-      return;
-    }
-  }, [initialValue]);
 
   return (
     <form onSubmit={onSubmit}>
@@ -95,21 +68,8 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
       />
 
       <div>
-        <p>Tag</p>
-        {tags.map((tag: Tag.Model) => {
-          return (
-            <label key={tag.id}>
-              <input
-                type="checkbox"
-                value={tag.id}
-                onChange={() => {
-                  onChangeTagId(tag.id);
-                }}
-              />
-              {tag.label}
-            </label>
-          );
-        })}
+        <h2>Tag</h2>
+        <TagList />
       </div>
       <button>Submit</button>
     </form>
