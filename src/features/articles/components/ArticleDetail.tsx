@@ -24,9 +24,10 @@ export default function ArticleDetail() {
   const editArticle = React.useCallback(
     async (value: Articles.CreateValue) => {
       await useUpdateArticleMutation.mutateAsync({ id: Number(id), value });
+      articlesQuery.refetch(); // TODO キャッシュを更新するべきな気がするので直す
       setIsEditing(false);
     },
-    [useUpdateArticleMutation, id]
+    [useUpdateArticleMutation, id, articlesQuery]
   );
 
   if (articlesQuery.isLoading) {

@@ -1,5 +1,4 @@
 import { useTags } from "@/features/tags/api/getTags";
-import { Link } from "react-router-dom";
 
 export default function TagList() {
   const tagsQuery = useTags();
@@ -18,7 +17,8 @@ export default function TagList() {
       {tagsQuery.data.map((tag) => {
         return (
           <li key={tag.id}>
-            <Link to={`/article/${tag.id}`}>{tag.label}</Link>
+            <input type="checkbox" />
+            <label htmlFor="">{tag.label}</label>
           </li>
         );
       })}
