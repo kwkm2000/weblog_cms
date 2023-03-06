@@ -1,12 +1,22 @@
 import { Article, Articles } from "../models";
+import { RawDraftContentState } from "draft-js";
 
 // const url = "http://13.231.5.6:4000";
 const url = "http://localhost:4000";
 
-export interface createValue {
-  title: string;
-  text: string;
+export interface CreateValue {
+  title: Article.Model["title"];
+  text: RawDraftContentState;
   tagIds: number[];
+}
+
+export interface UpdateValue {
+  id: Article.Model["id"];
+  value: CreateValue;
+}
+
+function rawTextBlockToString(raw: RawDraftContentState) {
+  return JSON.stringify(raw, null, 2);
 }
 
 /**
@@ -32,17 +42,28 @@ export async function getOne(id: number): Promise<Article.Model> {
   }
 }
 
-export async function create(value: createValue): Promise<void> {
+export async function create(value: CreateValue): Promise<void> {
+  const dto = { ...value, text: rawTextBlockToString(value.text) };
+
   await fetch(`${url}/articles`, {
     headers: {
       "Content-type": "application/json",
     },
     method: "POST",
-    body: JSON.stringify(value),
+    body: JSON.stringify(dto),
   });
 }
 
-export async function update(id: number) {}
+export async function update({ id, value }: UpdateValue): Promise<void> {
+  const dto = { ...value, text: rawTextBlockToString(value.text) };
+  await fetch(`${url}/articles/${id}`, {
+    headers: {
+      "Content-type": "application/json",
+    },
+    method: "PUT",
+    body: JSON.stringify(dto),
+  });
+}
 
 export async function remove(id: number) {
   await fetch(`${url}/articles/${id}`, {

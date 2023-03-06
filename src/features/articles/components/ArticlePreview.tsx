@@ -16,7 +16,7 @@ export default function ArticlePreview(props: Props) {
 
   return (
     <div style={{ border: "1px solid red" }}>
-      <div>preview</div>
+      <h2>preview</h2>
       <p>----</p>
       {text.blocks.map((block) => {
         return <div key={block.key}>{block.text}</div>;

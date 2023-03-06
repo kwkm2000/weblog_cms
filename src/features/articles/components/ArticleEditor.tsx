@@ -1,15 +1,23 @@
 import React from "react";
-import { Editor, EditorState, convertToRaw, RichUtils } from "draft-js";
+import {
+  Editor,
+  EditorState,
+  convertToRaw,
+  RichUtils,
+  convertFromRaw,
+  RawDraftContentState,
+} from "draft-js";
 import "draft-js/dist/Draft.css";
 import ArticlePreview from "./ArticlePreview";
 
 interface Props {
-  onChangeText: (text: string) => void;
+  onChangeText: (text: RawDraftContentState) => void;
+  initialValue?: RawDraftContentState;
 }
 
 export default function ArticleEditor(props: Props) {
+  const { onChangeText, initialValue } = props;
   const [editorEnable, setEditorEnable] = React.useState(false);
-  const { onChangeText } = props;
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
   );
@@ -44,16 +52,27 @@ export default function ArticleEditor(props: Props) {
   const onChange = React.useCallback(
     (editorState: EditorState) => {
       setEditorState(editorState);
+
       const contentState = editorState.getCurrentContent();
       const raw = convertToRaw(contentState);
-      onChangeText(JSON.stringify(raw, null, 2));
+      onChangeText(raw);
     },
     [onChangeText]
   );
+  // 初期値を渡されたときに値をセットする
+  const setInitialValue = React.useCallback(() => {
+    if (!initialValue) {
+      return;
+    }
+    const contentState = convertFromRaw(initialValue);
+    const editorState = EditorState.createWithContent(contentState);
+    setEditorState(editorState);
+  }, [initialValue]);
 
   React.useEffect(() => {
     setEditorEnable(true);
-  }, []);
+    setInitialValue();
+  }, [setInitialValue]);
 
   return (
     <>

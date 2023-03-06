@@ -16,6 +16,7 @@ type UseRemoveArticleOptions = {
  */
 export const useRemoveArticle = ({ id }: UseRemoveArticleOptions) => {
   return useMutation({
+    mutationFn: Articles.remove,
     onMutate: async () => {
       await queryClient.cancelQueries([QUERY_KEY]);
 
@@ -38,6 +39,5 @@ export const useRemoveArticle = ({ id }: UseRemoveArticleOptions) => {
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY, id]);
     },
-    mutationFn: Articles.remove,
   });
 };

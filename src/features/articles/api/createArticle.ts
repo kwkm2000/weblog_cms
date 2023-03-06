@@ -11,6 +11,7 @@ import { QUERY_KEY } from "./queryKey";
  */
 export const useCreateArticle = () => {
   return useMutation({
+    mutationFn: Articles.create,
     onMutate: async (newArticle) => {
       await queryClient.cancelQueries([QUERY_KEY]);
 
@@ -28,6 +29,5 @@ export const useCreateArticle = () => {
     onSuccess: () => {
       queryClient.invalidateQueries([QUERY_KEY]);
     },
-    mutationFn: Articles.create,
   });
 };

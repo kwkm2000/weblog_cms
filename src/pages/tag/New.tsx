@@ -24,7 +24,6 @@ export default function TagNew() {
         body: JSON.stringify(data),
       })
         .then(() => {
-          console.log("Success");
           setLabel("");
         })
         .catch((error) => {
