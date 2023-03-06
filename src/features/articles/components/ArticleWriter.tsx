@@ -1,6 +1,6 @@
 import React from "react";
 import { Articles } from "../repositories";
-import { Tag } from "../../../domain/models";
+import { Tag } from "@/features/tags/models";
 import ArticleEditor from "./ArticleEditor";
 import { Article } from "../models";
 

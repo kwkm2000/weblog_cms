@@ -48,6 +48,8 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^7.0.0"
+    "@craco/craco": "^7.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "path": "^0.12.7"
   }
 }
