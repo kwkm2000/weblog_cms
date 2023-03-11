@@ -27,7 +27,7 @@ export async function getALl(): Promise<Articles.Model> {
 }
 
 export async function getOne(id: number): Promise<Article.Model> {
-  return axios.get(`/articles${id}`);
+  return axios.get(`/articles/${id}`);
 }
 
 export async function create(value: CreateValue): Promise<Article.Model> {
