@@ -1,3 +1,3 @@
-# Weblog CMS
+# weblog_cms
 
 ブログを書くためのCMSです
