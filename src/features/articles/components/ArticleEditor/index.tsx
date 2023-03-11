@@ -8,7 +8,10 @@ import {
   RawDraftContentState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
-import ArticlePreview from "./ArticlePreview";
+import ArticlePreview from "@/features/articles/components/ArticlePreview";
+import BlockStyleControls from "@/features/articles/components/ArticleEditor/BlockStyleControls";
+import InlineStyleControls from "@/features/articles/components/ArticleEditor/InlineStyleControls";
+import styles from "./index.module.css";
 
 interface Props {
   onChangeText: (text: RawDraftContentState) => void;
@@ -28,24 +31,15 @@ export default function ArticleEditor(props: Props) {
     }
     editor.current.focus();
   }
-  const toggleBold = React.useCallback(
-    (e: React.SyntheticEvent) => {
-      e.preventDefault();
-      setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"));
+  const toggleBlockType = React.useCallback(
+    (type: string) => {
+      setEditorState(RichUtils.toggleBlockType(editorState, type));
     },
     [setEditorState, editorState]
   );
-  const toggleHeaderOne = React.useCallback(
-    (e: React.SyntheticEvent) => {
-      e.preventDefault();
-      setEditorState(RichUtils.toggleBlockType(editorState, "header-one"));
-    },
-    [setEditorState, editorState]
-  );
-  const toggleHeaderTwo = React.useCallback(
-    (e: React.SyntheticEvent) => {
-      e.preventDefault();
-      setEditorState(RichUtils.toggleBlockType(editorState, "header-two"));
+  const toggleInlineType = React.useCallback(
+    (type: string) => {
+      setEditorState(RichUtils.toggleInlineStyle(editorState, type));
     },
     [setEditorState, editorState]
   );
@@ -77,10 +71,18 @@ export default function ArticleEditor(props: Props) {
   return (
     <>
       {editorEnable && (
-        <>
+        <div className={styles.root}>
+          <div className={styles.inner}></div>
+          <BlockStyleControls
+            editorState={editorState}
+            onToggle={toggleBlockType}
+          />
+          <InlineStyleControls
+            editorState={editorState}
+            onToggle={toggleInlineType}
+          />
           <div
             style={{
-              border: "1px solid red",
               minHeight: "6em",
               cursor: "text",
             }}
@@ -93,16 +95,7 @@ export default function ArticleEditor(props: Props) {
               placeholder="Write something!"
             />
           </div>
-          <div>
-            <button onClick={toggleBold}>Bold</button>
-          </div>
-          <div>
-            <button onClick={toggleHeaderOne}>h1</button>
-          </div>
-          <div>
-            <button onClick={toggleHeaderTwo}>h2</button>
-          </div>
-        </>
+        </div>
       )}
       <ArticlePreview text={convertToRaw(editorState.getCurrentContent())} />
     </>
