@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArticlesList } from "@/features/articles/components/ArticlesList";
 
-function App() {
+function Home() {
   return (
     <div className="App">
       <header className="App-header">
@@ -19,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
