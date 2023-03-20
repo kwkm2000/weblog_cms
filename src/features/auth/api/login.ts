@@ -8,7 +8,7 @@ export type LoginCredentialsDTO = {
   password: string;
 };
 
-export const loginWithEmailAndPassword = (
+export const loginWithUsernameAndPassword = (
   data: LoginCredentialsDTO
 ): Promise<UserResponse> => {
   return login(data);

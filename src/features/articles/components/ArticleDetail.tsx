@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useRemoveArticle } from "../api/removeArticle";
 import { useArticle } from "../api/getArticle";
-import { assertIsDefined } from "../../../lib/assert";
+import { assertIsDefined } from "../../../utils/assert";
 import ArticlePreview from "./ArticlePreview";
 import ArticleWriter from "./ArticleWriter";
 import { Articles } from "../repositories";

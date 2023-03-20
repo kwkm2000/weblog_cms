@@ -4,8 +4,8 @@ export type AuthUser = {
 };
 
 export type UserResponse = {
-  //   jwt: string;
-  //   user: AuthUser;
+  jwt: string;
+  user: AuthUser;
   id: string;
   name: string;
 };
