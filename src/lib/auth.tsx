@@ -2,7 +2,7 @@
 import {
   loginWithUsernameAndPassword,
   getUser,
-  // registerWithEmailAndPassword,
+  registerWithEmailAndPassword,
   UserResponse,
   LoginCredentialsDTO,
   RegisterCredentialsDTO,
@@ -33,7 +33,7 @@ async function loginFn(data: LoginCredentialsDTO) {
 }
 
 async function registerFn(data: RegisterCredentialsDTO) {
-  const response = await loginWithUsernameAndPassword(data);
+  const response = await registerWithEmailAndPassword(data);
   const user = await handleUserResponse(response);
   return user;
 }
