@@ -5,7 +5,6 @@ function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <ArticlesList />
         <p>New Article Page</p>
         <p>
           <Link to={"/article/new"}>/article/new</Link>
@@ -14,6 +13,8 @@ function Home() {
         <p>
           <Link to={"/tag/new"}>/tag/new</Link>
         </p>
+        <hr />
+        <ArticlesList />
       </header>
     </div>
   );

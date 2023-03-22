@@ -5,8 +5,8 @@ import { publicRoutes } from "./public";
 
 export const AppRouters = () => {
   const user = useUser();
-  const commonRoutes = [{ path: "/" }];
-  const routes = user ? protectedRoutes : publicRoutes;
+  const commonRoutes = [{ path: "/", element: <div>Top Loading...</div> }];
+  const routes = user.data ? protectedRoutes : publicRoutes;
   const element = useRoutes([...routes, ...commonRoutes]);
 
   return <>{element}</>;
