@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArticlesList } from "@/features/articles/components/ArticlesList";
 
-function App() {
+function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <ArticlesList />
         <p>New Article Page</p>
         <p>
           <Link to={"/article/new"}>/article/new</Link>
@@ -14,9 +13,11 @@ function App() {
         <p>
           <Link to={"/tag/new"}>/tag/new</Link>
         </p>
+        <hr />
+        <ArticlesList />
       </header>
     </div>
   );
 }
 
-export default App;
+export default Home;
