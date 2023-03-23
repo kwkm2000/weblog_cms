@@ -1,6 +1,8 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import { useLogin } from "@/lib/auth";
 import * as z from "zod";
-// import { useAuth } from "@/lib/auth";
+import { loginWithUsernameAndPassword } from "@/features/auth/api/login";
 
 const schema = z.object({
   username: z.string().min(1, "Required"),
@@ -17,13 +19,34 @@ type LoginFormProps = {
 };
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
-  // const { login, isLoggingIn } = useAuth();
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const login = useLogin();
 
   return (
     <div>
-      <form action="">
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="password" />
+      <form
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          // useLogin({ username, password });
+          login.mutate({ username, password });
+          loginWithUsernameAndPassword({ username, password });
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Username"
+          onInput={(e) => {
+            setUsername(e.currentTarget.value);
+          }}
+        />
+        <input
+          type="password"
+          placeholder="password"
+          onInput={(e) => {
+            setPassword(e.currentTarget.value);
+          }}
+        />
         <div>
           <button>Log in</button>
         </div>

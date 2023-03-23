@@ -1,11 +1,9 @@
 export type AuthUser = {
-  id: string;
   name: string;
+  password: string;
 };
 
 export type UserResponse = {
   jwt: string;
   user: AuthUser;
-  id: string;
-  name: string;
 };

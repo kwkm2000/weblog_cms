@@ -15,10 +15,12 @@ import { configureAuth } from "react-query-auth";
 async function handleUserResponse(data: UserResponse) {
   const { jwt, user } = data;
   storage.setToken(jwt);
+
   return user;
 }
 
 async function loadUser() {
+  console.log("loadUser");
   if (storage.getToken()) {
     const data = await getUser();
     return data;
