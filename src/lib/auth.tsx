@@ -2,7 +2,7 @@
 import {
   loginWithUsernameAndPassword,
   getUser,
-  registerWithEmailAndPassword,
+  registerWithUsernameAndPassword,
   UserResponse,
   LoginCredentialsDTO,
   RegisterCredentialsDTO,
@@ -20,7 +20,6 @@ async function handleUserResponse(data: UserResponse) {
 }
 
 async function loadUser() {
-  console.log("loadUser");
   if (storage.getToken()) {
     const data = await getUser();
     return data;
@@ -35,7 +34,7 @@ async function loginFn(data: LoginCredentialsDTO) {
 }
 
 async function registerFn(data: RegisterCredentialsDTO) {
-  const response = await registerWithEmailAndPassword(data);
+  const response = await registerWithUsernameAndPassword(data);
   const user = await handleUserResponse(response);
   return user;
 }
