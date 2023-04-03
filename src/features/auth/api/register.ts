@@ -3,14 +3,19 @@ import { axios } from "@/lib/axios";
 import { UserResponse } from "../models";
 
 export type RegisterCredentialsDTO = {
-  email: string;
+  username: string;
   password: string;
-  firstName: string;
-  lastName: string;
 };
 
-export const registerWithEmailAndPassword = (
+export const registerWithUsernameAndPassword = (
   data: RegisterCredentialsDTO
 ): Promise<UserResponse> => {
-  return axios.post("/auth/register", data);
+  const username = prompt("Enter your username:");
+  const password = prompt("Enter your password:");
+
+  return axios.post("/auth/register", data, {
+    headers: {
+      Authorization: `Basic ${username}:${password}`,
+    },
+  });
 };
