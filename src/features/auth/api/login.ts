@@ -1,5 +1,3 @@
-import { axios } from "@/lib/axios";
-
 import { UserResponse } from "@/features/auth/models";
 import { login } from "@/features/auth/repositories/";
 
