@@ -6,7 +6,6 @@ import {
   UserResponse,
   LoginCredentialsDTO,
   RegisterCredentialsDTO,
-  AuthUser,
 } from "@/features/auth";
 import storage from "@/utils/storage";
 
