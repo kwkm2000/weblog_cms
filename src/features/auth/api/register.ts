@@ -13,7 +13,7 @@ export const registerWithUsernameAndPassword = (
   const username = prompt("Enter your username:");
   const password = prompt("Enter your password:");
 
-  return axios.post("/auth/register", data, {
+  return axios.post("/users", data, {
     headers: {
       Authorization: `Basic ${username}:${password}`,
     },
