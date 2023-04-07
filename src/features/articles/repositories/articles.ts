@@ -1,6 +1,7 @@
 import { Article, Articles } from "@/features/articles/models";
 import { RawDraftContentState } from "draft-js";
 import { axios } from "@/lib/axios";
+import storage from "@/utils/storage";
 
 export interface CreateValue {
   title: Article.Model["title"];
@@ -12,6 +13,8 @@ export interface UpdateValue {
   id: Article.Model["id"];
   value: CreateValue;
 }
+
+const token = storage.getToken();
 
 function rawTextBlockToString(raw: RawDraftContentState) {
   return JSON.stringify(raw, null, 2);
@@ -33,23 +36,43 @@ export async function getOne(id: number): Promise<Article.Model> {
 export async function create(value: CreateValue): Promise<Article.Model> {
   const dto = { ...value, text: rawTextBlockToString(value.text) };
 
-  return axios.post("/articles", {
-    title: dto.title,
-    text: dto.text,
-    tagIds: dto.tagIds,
-  });
+  return axios.post(
+    "/articles",
+    {
+      title: dto.title,
+      text: dto.text,
+      tagIds: dto.tagIds,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 }
 
 export async function update({ id, value }: UpdateValue): Promise<void> {
   const dto = { ...value, text: rawTextBlockToString(value.text) };
 
-  return axios.put(`/articles/${id}`, {
-    title: dto.title,
-    text: dto.text,
-    tagIds: dto.tagIds,
-  });
+  return axios.put(
+    `/articles/${id}`,
+    {
+      title: dto.title,
+      text: dto.text,
+      tagIds: dto.tagIds,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 }
 
 export async function remove(id: number) {
-  return axios.delete(`/articles/${id}`);
+  return axios.delete(`/articles/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
