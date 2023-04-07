@@ -1,5 +1,8 @@
 import { Tag } from "@/features/tags/models";
 import { axios } from "@/lib/axios";
+import storage from "@/utils/storage";
+
+const token = storage.getToken();
 
 /**
  * タグをすべて取得する
@@ -9,7 +12,7 @@ import { axios } from "@/lib/axios";
 export function getALl(): Promise<Tag.Model[]> {
   return axios.get(`/tags`, {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTY3OTA0MTQ0NCwiZXhwIjoxNjc5MDQzMjQ0fQ.oJbivXlYXGEDUDIFEd1KK16vF0cVkUE5GHzpD4lLqkM`,
+      Authorization: `Bearer ${token}`,
     },
   });
 }
@@ -26,7 +29,7 @@ export async function create(label: Tag.Model["label"]): Promise<Tag.Model> {
     },
     {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTY3ODk3ODA3NiwiZXhwIjoxNjc4OTc5ODc2fQ.u4Rv19Y3aVn02wbLZwH_Z0HzwGGJ8exGSml_MWDacCg`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );
@@ -44,5 +47,9 @@ export async function create(label: Tag.Model["label"]): Promise<Tag.Model> {
 // }
 
 export async function remove(id: Tag.Model["id"]) {
-  return await axios.delete(`/articles/${id}`);
+  return await axios.delete(`/articles/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
