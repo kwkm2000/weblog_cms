@@ -5,9 +5,6 @@
   "dependencies": {
     "@tanstack/react-query": "^4.24.10",
     "@tanstack/react-query-devtools": "^4.24.12",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.0.0",
     "@types/draft-js": "^0.11.10",
     "@types/jest": "^29.0.0",
     "@types/node": "^18.0.0",
@@ -30,7 +27,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco eject",
+    "test:jest": "craco test",
+    "test:coverage": "npm run test:jest -- --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -51,8 +49,33 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js",
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/**/*.stories.{js,jsx,ts,tsx}",
+      "!src/test/**/*.{js,jsx,ts,tsx}"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios)/)"
+    ]
+  },
   "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-typescript": "^7.21.4",
     "@craco/craco": "^7.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "babel-jest": "^29.5.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "path": "^0.12.7"
   }

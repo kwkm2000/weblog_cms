@@ -13,7 +13,7 @@ import BlockStyleControls from "@/features/articles/components/ArticleEditor/Blo
 import InlineStyleControls from "@/features/articles/components/ArticleEditor/InlineStyleControls";
 import styles from "./index.module.css";
 
-interface Props {
+export interface Props {
   onChangeText: (text: RawDraftContentState) => void;
   initialValue?: RawDraftContentState;
 }
@@ -93,6 +93,7 @@ export default function ArticleEditor(props: Props) {
               editorState={editorState}
               onChange={onChange}
               placeholder="Write something!"
+              data-testid="article-editor"
             />
           </div>
         </div>
