@@ -4,8 +4,18 @@ import "@testing-library/jest-dom/extend-expect";
 import ArticleEditor, { Props } from "./";
 import { RawDraftContentState } from "draft-js";
 import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+global.scrollTo = jest.fn();
 
 describe("ArticleEditor", () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
   const initialText: RawDraftContentState = {
     blocks: [
       {
@@ -23,7 +33,11 @@ describe("ArticleEditor", () => {
 
   const setup = (props: Partial<Props> = {}) => {
     const onChangeText = jest.fn();
-    render(<ArticleEditor onChangeText={onChangeText} {...props} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ArticleEditor onChangeText={onChangeText} {...props} />
+      </QueryClientProvider>
+    );
     const editor = screen.getByRole("textbox");
 
     return {
