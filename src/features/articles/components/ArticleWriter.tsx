@@ -58,9 +58,16 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <input type="text" value={title} onChange={onChangeTitle} />
+        <input
+          type="text"
+          value={title}
+          placeholder="title"
+          onChange={onChangeTitle}
+          data-testid="article-title"
+        />
       </div>
       <ArticleEditor
+        data-testid="article-editor"
         onChangeText={(text) => {
           setText(text);
         }}
