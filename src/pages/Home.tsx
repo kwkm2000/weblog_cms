@@ -16,6 +16,10 @@ function Home() {
       <p>
         <Link to={"/tag/new"}>/tag/new</Link>
       </p>
+      <p>Images upload</p>
+      <p>
+        <Link to={"/images/upload"}>/images/upload</Link>
+      </p>
       <hr />
       <ArticlesList />
     </div>
