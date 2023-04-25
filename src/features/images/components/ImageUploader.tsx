@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  uploadImage,
-  UploadResponse,
-} from "@/features/images/repositories/images";
+import { uploadImage } from "@/features/images/repositories/images";
 
 export default function ImageUploader() {
   const [file, setFile] = useState<File | null>(null);
