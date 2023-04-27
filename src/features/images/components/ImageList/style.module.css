@@ -1,0 +1,12 @@
+.root {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    max-width: 100px;
+}
+
+.img {
+    width: 100%;
+}

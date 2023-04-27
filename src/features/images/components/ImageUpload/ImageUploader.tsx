@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { uploadImage } from "@/features/images/repositories/images";
+import ImagesList from "@/features/images/components/ImageList/ImagesList";
 
 export default function ImageUploader() {
   const [file, setFile] = useState<File | null>(null);
@@ -43,12 +44,12 @@ export default function ImageUploader() {
           {uploading ? "Uploading..." : "Upload"}
         </button>
       </form>
-
-      {uploadedImage && (
+      <ImagesList></ImagesList>
+      {/* {uploadedImage && (
         <div>
           <img src={uploadedImage} alt="" />
         </div>
-      )}
+      )} */}
     </>
   );
 }

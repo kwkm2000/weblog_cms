@@ -3,6 +3,7 @@ import { Articles } from "../repositories";
 import { Article } from "../models";
 import ArticleEditor from "./ArticleEditor";
 import TagList from "@/features/tags/components/TagList";
+import ImageUploader from "@/features/images/components/ImageUpload/ImageUploader";
 
 /**
  *
@@ -18,6 +19,7 @@ interface Props {
 export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
   const [text, setText] = React.useState(initialValue?.text);
   const [title, setTitle] = React.useState(initialValue?.title || "");
+  const [isImageShow, setIsImageShow] = React.useState(false);
   const [checkedTagIds] = React.useState<number[]>(() => {
     if (initialValue) {
       return initialValue.tags.map((tag) => tag.id);
@@ -66,6 +68,9 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
           data-testid="article-title"
         />
       </div>
+
+      <ImageUploader />
+
       <ArticleEditor
         data-testid="article-editor"
         onChangeText={(text) => {

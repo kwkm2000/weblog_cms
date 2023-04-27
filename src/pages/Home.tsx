@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { ArticlesList } from "@/features/articles/components/ArticlesList";
-import ImagesList from "@/features/images/components/ImagesList";
 
 function Home() {
   return (
@@ -23,7 +22,6 @@ function Home() {
       </p>
       <hr />
       <ArticlesList />
-      <ImagesList></ImagesList>
     </div>
   );
 }
