@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { uploadImage } from "@/features/images/repositories/images";
 import ImagesList from "@/features/images/components/ImageList/ImagesList";
 
-export default function ImageUploader() {
+type Props = {
+  onSelectImage?: (imgPath: string) => void;
+};
+
+export default function ImageUploader({ onSelectImage }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFile(event.target.files ? event.target.files[0] : null);
   };
@@ -25,7 +29,7 @@ export default function ImageUploader() {
 
     try {
       const response = await uploadImage(formData);
-      setUploadedImage(response);
+
       console.log("hoge", response);
       alert("画像をアップロードしました！");
     } catch (error) {
@@ -44,12 +48,13 @@ export default function ImageUploader() {
           {uploading ? "Uploading..." : "Upload"}
         </button>
       </form>
-      <ImagesList></ImagesList>
-      {/* {uploadedImage && (
-        <div>
-          <img src={uploadedImage} alt="" />
-        </div>
-      )} */}
+      <ImagesList
+        onClickImage={(path) => {
+          if (onSelectImage) {
+            onSelectImage(path);
+          }
+        }}
+      ></ImagesList>
     </>
   );
 }

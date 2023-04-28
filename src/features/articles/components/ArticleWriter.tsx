@@ -20,6 +20,7 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
   const [text, setText] = React.useState(initialValue?.text);
   const [title, setTitle] = React.useState(initialValue?.title || "");
   const [isImageShow, setIsImageShow] = React.useState(false);
+  const [headerImage, setHeaderImage] = React.useState<string | null>(null);
   const [checkedTagIds] = React.useState<number[]>(() => {
     if (initialValue) {
       return initialValue.tags.map((tag) => tag.id);
@@ -59,6 +60,24 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
 
   return (
     <form onSubmit={onSubmit}>
+      <h2>Header Image</h2>
+
+      {headerImage ? (
+        <p>
+          <img src={headerImage} alt="" />
+        </p>
+      ) : (
+        <>
+          <p>HeaderImageがないです</p>
+          <ImageUploader
+            onSelectImage={(imgPath) => {
+              setHeaderImage(imgPath);
+            }}
+          />
+        </>
+      )}
+
+      <h2>Heading</h2>
       <div>
         <input
           type="text"
@@ -69,7 +88,15 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
         />
       </div>
 
-      <ImageUploader />
+      <h2>Select IMage</h2>
+      <ImageUploader
+        onSelectImage={(imgPath) => {
+          console.log(imgPath);
+          console.log("select image");
+        }}
+      />
+
+      <h2>Body</h2>
 
       <ArticleEditor
         data-testid="article-editor"

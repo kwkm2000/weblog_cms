@@ -1,17 +1,18 @@
 import React from "react";
 import {
-  Editor,
   EditorState,
   convertToRaw,
   RichUtils,
   convertFromRaw,
   RawDraftContentState,
 } from "draft-js";
+import Editor from "@draft-js-plugins/editor";
 import "draft-js/dist/Draft.css";
 import ArticlePreview from "@/features/articles/components/ArticlePreview";
 import BlockStyleControls from "@/features/articles/components/ArticleEditor/BlockStyleControls";
 import InlineStyleControls from "@/features/articles/components/ArticleEditor/InlineStyleControls";
 import styles from "./index.module.css";
+import createImagePlugin from "@draft-js-plugins/image";
 
 export interface Props {
   onChangeText: (text: RawDraftContentState) => void;
@@ -19,6 +20,7 @@ export interface Props {
 }
 
 export default function ArticleEditor(props: Props) {
+  const imagePlugin = createImagePlugin();
   const { onChangeText, initialValue } = props;
   const [editorEnable, setEditorEnable] = React.useState(false);
   const [editorState, setEditorState] = React.useState(() =>
@@ -94,6 +96,7 @@ export default function ArticleEditor(props: Props) {
               onChange={onChange}
               placeholder="Write something!"
               data-testid="article-editor"
+              plugins={[imagePlugin]}
             />
           </div>
         </div>
