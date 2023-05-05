@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { uploadImage } from "@/features/images/repositories/images";
 import ImagesList from "@/features/images/components/ImageList/ImagesList";
 
 type Props = {
@@ -28,8 +27,6 @@ export default function ImageUploader({ onSelectImage }: Props) {
     setUploading(true);
 
     try {
-      const response = await uploadImage(formData);
-
       alert("画像をアップロードしました！");
     } catch (error) {
       console.error("Error:", error);
