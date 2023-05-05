@@ -96,8 +96,7 @@ export default function ArticleEditor(props: Props) {
         <div className={styles.root}>
           <div className={styles.inner}></div>
           <ImageUploader
-            onSelectImage={(imgPath) => {
-              console.log("imgPath", imgPath);
+            onSelectImage={(imgPath: string) => {
               insertImage(imgPath);
             }}
           />
