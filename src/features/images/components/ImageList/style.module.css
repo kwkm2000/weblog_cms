@@ -7,6 +7,14 @@
     max-width: 100px;
 }
 
+.button {
+    text-decoration: 'none';
+    cursor: 'pointer';
+    background: 'none';
+    border: 'none';
+    padding: 0;
+}
+
 .img {
     width: 100%;
 }
