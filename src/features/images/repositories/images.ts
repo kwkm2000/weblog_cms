@@ -1,6 +1,5 @@
 import { axios } from "@/lib/axios";
 import storage from "@/utils/storage";
-import { Images } from "@/features/images/models";
 
 const token = storage.getToken();
 

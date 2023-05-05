@@ -17,8 +17,8 @@ export default function ImagesList({ onClickImage }: Props) {
     <ul className={styles.root}>
       {imagesQuery.data?.map((image, index) => {
         return (
-          <a
-            href="#"
+          <button
+            className={styles.button}
             onClick={(event) => {
               event.preventDefault();
 
@@ -30,7 +30,7 @@ export default function ImagesList({ onClickImage }: Props) {
             <li key={index} className={styles.column}>
               <img src={image} alt="" className={styles.img} />
             </li>
-          </a>
+          </button>
         );
       })}
     </ul>
