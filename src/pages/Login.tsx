@@ -7,7 +7,6 @@ function Login() {
   const navigate = useNavigate();
   const login = React.useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("login");
   }, []);
 
   return (

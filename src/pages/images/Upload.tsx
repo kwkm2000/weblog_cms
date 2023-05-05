@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ImageUploader from "@/features/images/components/ImageUploader";
+import ImageUploader from "@/features/images/components/ImageUpload/ImageUploader";
 
 export default function ArticleNewPage() {
   return (

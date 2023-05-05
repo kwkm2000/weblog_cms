@@ -11,7 +11,6 @@ export default function TagList() {
     return null;
   }
 
-  console.log(tagsQuery.data);
   return (
     <ul>
       {tagsQuery.data.map((tag) => {
