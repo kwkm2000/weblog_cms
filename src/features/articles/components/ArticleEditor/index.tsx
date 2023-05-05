@@ -5,6 +5,7 @@ import {
   RichUtils,
   convertFromRaw,
   RawDraftContentState,
+  AtomicBlockUtils,
 } from "draft-js";
 import Editor from "@draft-js-plugins/editor";
 import "draft-js/dist/Draft.css";
@@ -13,6 +14,7 @@ import BlockStyleControls from "@/features/articles/components/ArticleEditor/Blo
 import InlineStyleControls from "@/features/articles/components/ArticleEditor/InlineStyleControls";
 import styles from "./index.module.css";
 import createImagePlugin from "@draft-js-plugins/image";
+import ImageUploader from "@/features/images/components/ImageUpload/ImageUploader";
 
 export interface Props {
   onChangeText: (text: RawDraftContentState) => void;
@@ -51,6 +53,7 @@ export default function ArticleEditor(props: Props) {
 
       const contentState = editorState.getCurrentContent();
       const raw = convertToRaw(contentState);
+
       onChangeText(raw);
     },
     [onChangeText]
@@ -65,6 +68,23 @@ export default function ArticleEditor(props: Props) {
     setEditorState(editorState);
   }, [initialValue]);
 
+  const insertImage = (url: string) => {
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      "IMAGE",
+      "IMMUTABLE",
+      { src: url }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(editorState, {
+      currentContent: contentStateWithEntity,
+    });
+
+    setEditorState(
+      AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ")
+    );
+  };
+
   React.useEffect(() => {
     setEditorEnable(true);
     setInitialValue();
@@ -75,6 +95,12 @@ export default function ArticleEditor(props: Props) {
       {editorEnable && (
         <div className={styles.root}>
           <div className={styles.inner}></div>
+          <ImageUploader
+            onSelectImage={(imgPath) => {
+              console.log("imgPath", imgPath);
+              insertImage(imgPath);
+            }}
+          />
           <BlockStyleControls
             editorState={editorState}
             onToggle={toggleBlockType}

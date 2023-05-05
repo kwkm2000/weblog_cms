@@ -30,7 +30,6 @@ export default function ImageUploader({ onSelectImage }: Props) {
     try {
       const response = await uploadImage(formData);
 
-      console.log("hoge", response);
       alert("画像をアップロードしました！");
     } catch (error) {
       console.error("Error:", error);

@@ -1,5 +1,6 @@
 import React from "react";
 import { RawDraftContentState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 
 interface Props {
   text: RawDraftContentState;
@@ -7,8 +8,7 @@ interface Props {
 
 export default function ArticlePreview(props: Props) {
   const { text } = props;
-
-  React.useEffect(() => {}, []);
+  const markup = draftToHtml(text);
 
   if (!text.blocks.length) {
     return <></>;
@@ -18,9 +18,7 @@ export default function ArticlePreview(props: Props) {
     <div style={{ border: "1px solid red" }}>
       <h2>preview</h2>
       <p>----</p>
-      {text.blocks.map((block) => {
-        return <div key={block.key}>{block.text}</div>;
-      })}
+      <div dangerouslySetInnerHTML={{ __html: markup }}></div>
     </div>
   );
 }

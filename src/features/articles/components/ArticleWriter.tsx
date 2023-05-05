@@ -19,7 +19,6 @@ interface Props {
 export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
   const [text, setText] = React.useState(initialValue?.text);
   const [title, setTitle] = React.useState(initialValue?.title || "");
-  const [isImageShow, setIsImageShow] = React.useState(false);
   const [headerImage, setHeaderImage] = React.useState<string | null>(null);
   const [checkedTagIds] = React.useState<number[]>(() => {
     if (initialValue) {
@@ -87,14 +86,6 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
           data-testid="article-title"
         />
       </div>
-
-      <h2>Select IMage</h2>
-      <ImageUploader
-        onSelectImage={(imgPath) => {
-          console.log(imgPath);
-          console.log("select image");
-        }}
-      />
 
       <h2>Body</h2>
 
