@@ -49,11 +49,15 @@ export default function ArticleEditor(props: Props) {
   );
   const onChange = React.useCallback(
     (editorState: EditorState) => {
-      setEditorState(editorState);
-
       const contentState = editorState.getCurrentContent();
       const raw = convertToRaw(contentState);
+      console.log("raw", raw);
 
+      if (!Object.keys(raw.entityMap).length) {
+        console.log("return!!!");
+        return;
+      }
+      setEditorState(editorState);
       onChangeText(raw);
     },
     [onChangeText]
@@ -84,6 +88,19 @@ export default function ArticleEditor(props: Props) {
       AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ")
     );
   };
+
+  // const handleKeyCommand = (command: string, editorState: EditorState) => {
+  //   console.log("command", command);
+  //   if (command === "split-block") {
+  //     const contentState = editorState.getCurrentContent();
+  //     const entityMap = contentState.getEntityMap();
+
+  //     if (Object.keys(entityMap).length === 0) {
+  //       return "handled";
+  //     }
+  //   }
+  //   return "not-handled";
+  // };
 
   React.useEffect(() => {
     setEditorEnable(true);
@@ -122,6 +139,7 @@ export default function ArticleEditor(props: Props) {
               placeholder="Write something!"
               data-testid="article-editor"
               plugins={[imagePlugin]}
+              // handleKeyCommand={handleKeyCommand}
             />
           </div>
         </div>
