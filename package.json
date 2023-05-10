@@ -84,8 +84,6 @@
     "@types/draftjs-to-html": "^0.8.1",
     "babel-jest": "^29.5.0",
     "eslint-import-resolver-alias": "^1.1.2",
-    "install": "^0.13.0",
-    "npm": "^9.6.6",
     "path": "^0.12.7"
   }
 }
