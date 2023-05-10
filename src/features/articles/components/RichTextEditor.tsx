@@ -9,16 +9,14 @@ import {
 import { Slate, Editable, withReact, RenderElementProps } from "slate-react";
 import { CustomElement } from "../../../slateCustomTypes";
 
-const initialValue: Descendant[] = [
-  {
-    type: "paragraph",
-    children: [{ text: "A line of text in a paragraph." }],
-  },
-];
+interface Props {
+  initialValue: Descendant[];
+  onChange: (newValue: Descendant[]) => void;
+}
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
-const RichTextEditor: React.FC = () => {
+const RichTextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
   const editor = useMemo(() => withReact(createEditor()), []);
   const [value, setValue] = useState<Descendant[]>(initialValue);
 
@@ -131,7 +129,10 @@ const RichTextEditor: React.FC = () => {
       <Slate
         editor={editor}
         value={value}
-        onChange={(value) => setValue(value)}
+        onChange={(value) => {
+          onChange(value);
+          setValue(value);
+        }}
       >
         <Editable
           renderElement={renderElement}

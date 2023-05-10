@@ -13,6 +13,7 @@ function Home() {
   ]);
 
   const handleContentChange = (newValue: Descendant[]) => {
+    console.log("newValue", newValue);
     setContent(newValue);
   };
   return (
