@@ -3,8 +3,19 @@ import { BaseEditor } from "slate";
 import { ReactEditor } from "slate-react";
 import { HistoryEditor } from "slate-history";
 
-type CustomElement = { type: "paragraph"; children: CustomText[] };
-type CustomText = { text: string; bold?: boolean };
+export type CustomElement = {
+  type:
+    | "paragraph"
+    | "list-item"
+    | "block-quote"
+    | "bulleted-list"
+    | "heading-one"
+    | "heading-two"
+    | "numbered-list"
+    | "preformatted";
+  children: CustomText[];
+};
+export type CustomText = { text: string; bold?: boolean };
 
 declare module "slate" {
   interface CustomTypes {
