@@ -5,16 +5,8 @@ import { Descendant } from "slate";
 import RichTextEditor from "@/features/articles/components/RichTextEditor";
 
 function Home() {
-  const [content, setContent] = useState<Descendant[]>([
-    {
-      type: "paragraph",
-      children: [{ text: "A line of text in a paragraph." }],
-    },
-  ]);
-
   const handleContentChange = (newValue: Descendant[]) => {
     console.log("newValue", newValue);
-    setContent(newValue);
   };
   return (
     <div className="App">
@@ -36,9 +28,7 @@ function Home() {
       </p>
 
       <hr />
-      <RichTextEditor initialValue={content} onChange={handleContentChange} />
 
-      <hr />
       <ArticlesList />
     </div>
   );
