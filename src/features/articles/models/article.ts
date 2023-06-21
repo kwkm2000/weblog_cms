@@ -1,12 +1,13 @@
 import { RawDraftContentState } from "draft-js";
 import * as Tag from "../../tags/models/tag";
+import { Descendant } from "slate";
 
 export interface Model {
   readonly id: number;
   readonly title: string;
-  readonly text: RawDraftContentState;
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
+  readonly text: Descendant[];
+  readonly createdAt: string;
+  readonly updatedAt: string;
   readonly tags: Tag.Model[];
 }
 

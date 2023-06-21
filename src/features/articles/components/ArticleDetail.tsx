@@ -52,7 +52,7 @@ export default function ArticleDetail() {
       ) : (
         <>
           <h2>{articlesQuery.data.title}</h2>
-          <ArticlePreview text={articlesQuery.data.text} />
+          <ArticlePreview value={articlesQuery.data.text} />
         </>
       )}
 

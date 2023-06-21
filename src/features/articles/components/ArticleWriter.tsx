@@ -1,7 +1,6 @@
 import React from "react";
 import { Articles } from "../repositories";
 import { Article } from "../models";
-import ArticleEditor from "./ArticleEditor";
 import RichTextEditor from "./RichTextEditor";
 import TagList from "@/features/tags/components/TagList";
 import ImageUploader from "@/features/images/components/ImageUpload/ImageUploader";
@@ -64,14 +63,14 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
         return;
       }
       console.log("data", data);
-      return;
+
       onCreateValue(data);
     },
     [title, content, checkedTagIds, onCreateValue]
   );
 
   return (
-    <form onSubmit={onSubmit}>
+    <>
       <h2>Header Image</h2>
       {headerImage ? (
         <p>
@@ -87,30 +86,26 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
           />
         </>
       )}
-      <h2>Heading</h2>
-      <div>
-        <input
-          type="text"
-          value={title}
-          placeholder="title"
-          onChange={onChangeTitle}
-          data-testid="article-title"
-        />
-      </div>
-      <h2>Body</h2>
-      <RichTextEditor initialValue={content} onChange={handleContentChange} />
-      {/* <ArticleEditor
-        data-testid="article-editor"
-        onChangeText={(text) => {
-          setText(text);
-        }}
-        initialValue={initialValue?.text}
-      /> */}
-      <div>
-        <h2>Tag</h2>
-        <TagList />
-      </div>
-      <button>Submit</button>
-    </form>
+      <form onSubmit={onSubmit}>
+        <h2>Heading</h2>
+        <div>
+          <input
+            type="text"
+            value={title}
+            placeholder="title"
+            onChange={onChangeTitle}
+            data-testid="article-title"
+          />
+        </div>
+        <h2>Body</h2>
+        <RichTextEditor initialValue={content} onChange={handleContentChange} />
+
+        <div>
+          <h2>Tag</h2>
+          <TagList />
+        </div>
+        <button>Submit</button>
+      </form>
+    </>
   );
 }

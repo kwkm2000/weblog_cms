@@ -8,29 +8,52 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const mockArticle: Article.Model = {
   id: 1,
-  title: "Test title",
-  text: {
-    blocks: [
-      {
-        key: "1",
-        text: "Initial text",
-        type: "unstyled",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {},
-      },
-    ],
-    entityMap: {},
-  },
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  tags: [
+  title: "slate",
+  text: [
     {
-      id: 1,
-      label: "Test tag",
-    } as Tag.Model,
+      type: "paragraph",
+      children: [
+        {
+          text: "A line of text in a paragraph.",
+        },
+      ],
+    },
+    {
+      type: "paragraph",
+      children: [
+        {
+          text: "",
+        },
+      ],
+    },
+    {
+      type: "paragraph",
+      children: [
+        {
+          text: "slate",
+        },
+      ],
+    },
+    {
+      type: "paragraph",
+      children: [
+        {
+          text: "",
+        },
+      ],
+    },
+    {
+      type: "paragraph",
+      children: [
+        {
+          text: "slate",
+        },
+      ],
+    },
   ],
+  createdAt: "2023-06-20T12:12:55.403Z",
+  updatedAt: "2023-06-20T12:12:55.403Z",
+  tags: [],
 };
 
 describe("ArticleWriter", () => {
@@ -70,41 +93,4 @@ describe("ArticleWriter", () => {
     const titleInputElement = screen.getByTestId("article-title");
     expect(titleInputElement).toHaveValue(mockArticle.title);
   });
-
-  // test("タイトルが空の状態でSubmitボタンを押すとアラートが表示される", async () => {
-  //   jest.spyOn(window, "alert").mockImplementation(() => {});
-  //   render(
-  //     <QueryClientProvider client={queryClient}>
-  //       <ArticleWriter onCreateValue={onCreateValue} />
-  //     </QueryClientProvider>
-  //   );
-
-  //   await userEvent.click(screen.getByText("Submit"));
-
-  //   expect(window.alert).toHaveBeenCalledWith("titleがからです！");
-  // });
-
-  //   test("タイトルが入力されたとき、onCreateValueが正しいデータで呼ばれること", () => {
-  //     const newTitle = "New title";
-  //     const newText = "New text";
-  //     render(<ArticleWriter onCreateValue={onCreateValue} />);
-
-  //     fireEvent.change(screen.getByRole("textbox"), {
-  //       target: { value: newTitle },
-  //     });
-
-  //     // この部分ではArticleEditorで使用した方法を使用して、エディタの内容が変更されたことをシミュレートします。
-  //     // ただし、これはテストの目的に応じて適切な方法を選択する必要があります。
-  //     fireEvent.change(screen.getByRole("textbox", { name: /article-editor/i }), {
-  //       target: { value: newText },
-  //     });
-
-  //     userEvent.click(screen.getByText("Submit"));
-
-  //     expect(onCreateValue).toHaveBeenCalledWith({
-  //       title: newTitle,
-  //       text: newText,
-  //       tagIds: [],
-  //     });
-  //   });
 });

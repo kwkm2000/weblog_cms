@@ -127,7 +127,7 @@ export default function ArticleEditor(props: Props) {
           </div>
         </div>
       )}
-      <ArticlePreview text={convertToRaw(editorState.getCurrentContent())} />
+      {/* <ArticlePreview text={convertToRaw(editorState.getCurrentContent())} /> */}
     </>
   );
 }
