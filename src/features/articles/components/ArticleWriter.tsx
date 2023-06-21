@@ -21,7 +21,6 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
   const [title, setTitle] = React.useState(initialValue?.title || "");
   const [headerImage, setHeaderImage] = React.useState<string | null>(null);
   const handleContentChange = (newValue: Descendant[]) => {
-    console.log("newValue", newValue);
     setContent(newValue);
   };
   const [content, setContent] = React.useState<Descendant[]>([

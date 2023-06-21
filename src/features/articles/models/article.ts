@@ -1,4 +1,3 @@
-import { RawDraftContentState } from "draft-js";
 import * as Tag from "../../tags/models/tag";
 import { Descendant } from "slate";
 
