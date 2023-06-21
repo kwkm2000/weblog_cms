@@ -128,7 +128,7 @@ const RichTextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
       </button>
       <Slate
         editor={editor}
-        value={value}
+        initialValue={value}
         onChange={(value) => {
           onChange(value);
           setValue(value);

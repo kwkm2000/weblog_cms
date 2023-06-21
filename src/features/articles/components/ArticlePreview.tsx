@@ -1,24 +1,39 @@
-import React from "react";
-import { RawDraftContentState } from "draft-js";
-import draftToHtml from "draftjs-to-html";
+import React, { FC } from "react";
+import { Descendant, Element as SlateElement, Text } from "slate";
 
-interface Props {
-  text: RawDraftContentState;
-}
-
-export default function ArticlePreview(props: Props) {
-  const { text } = props;
-  const markup = draftToHtml(text);
-
-  if (!text.blocks.length) {
-    return <></>;
+// 各ノードをHTMLに変換する関数
+const nodeToHTML = (node: Descendant): string => {
+  if (Text.isText(node)) {
+    return node.text;
   }
 
-  return (
-    <div style={{ border: "1px solid red" }}>
-      <h2>preview</h2>
-      <p>----</p>
-      <div dangerouslySetInnerHTML={{ __html: markup }}></div>
-    </div>
-  );
+  const element = node as SlateElement;
+  const children = serialize(element.children);
+
+  switch (element.type) {
+    case "paragraph":
+      return `<p>${children}</p>`;
+    case "heading-one":
+      return `<h1>${children}</h1>`;
+    // 他のノードタイプもここで処理します...
+    default:
+      return children;
+  }
+};
+
+// ノードを再帰的に処理してHTMLを生成する関数
+const serialize = (nodes: Descendant[]): string => {
+  return nodes.map(nodeToHTML).join("");
+};
+
+interface SlateToHtmlProps {
+  value: Descendant[];
 }
+
+// Descendant[]を受け取り、それをHTMLに変換して描画するReactコンポーネント
+const SlateToHtml: FC<SlateToHtmlProps> = ({ value }) => {
+  const html = serialize(value);
+  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+};
+
+export default SlateToHtml;

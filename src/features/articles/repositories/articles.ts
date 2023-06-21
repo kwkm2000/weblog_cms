@@ -2,10 +2,11 @@ import { Article, Articles } from "@/features/articles/models";
 import { RawDraftContentState } from "draft-js";
 import { axios } from "@/lib/axios";
 import storage from "@/utils/storage";
+import { Descendant } from "slate";
 
 export interface CreateValue {
   title: Article.Model["title"];
-  text: RawDraftContentState;
+  text: Descendant[];
   tagIds: number[];
 }
 
@@ -34,7 +35,7 @@ export async function getOne(id: number): Promise<Article.Model> {
 }
 
 export async function create(value: CreateValue): Promise<Article.Model> {
-  const dto = { ...value, text: rawTextBlockToString(value.text) };
+  const dto = { ...value, text: value.text };
 
   return axios.post(
     "/articles",
@@ -52,7 +53,7 @@ export async function create(value: CreateValue): Promise<Article.Model> {
 }
 
 export async function update({ id, value }: UpdateValue): Promise<void> {
-  const dto = { ...value, text: rawTextBlockToString(value.text) };
+  const dto = { ...value, text: value.text };
 
   return axios.put(
     `/articles/${id}`,
