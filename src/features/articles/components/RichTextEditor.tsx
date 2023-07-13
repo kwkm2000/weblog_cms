@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useRef } from "react";
 import {
   createEditor,
   Descendant,
@@ -7,18 +7,21 @@ import {
   Element as SlateElement,
 } from "slate";
 import { Slate, Editable, withReact, RenderElementProps } from "slate-react";
-import { CustomElement } from "../../../slateCustomTypes";
+import { CustomElement, ImageElement } from "../../../slateCustomTypes";
 
 interface Props {
   initialValue: Descendant[];
   onChange: (newValue: Descendant[]) => void;
 }
 
+type ToggleElement = Exclude<CustomElement, ImageElement>;
+
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
 const RichTextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
   const editor = useMemo(() => withReact(createEditor()), []);
   const [value, setValue] = useState<Descendant[]>(initialValue);
+  const imageUrlInputRef = useRef<HTMLInputElement>(null);
 
   const renderElement = useCallback(
     ({ attributes, children, element }: RenderElementProps) => {
@@ -39,6 +42,8 @@ const RichTextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
           return <p {...attributes}>{children}</p>;
         case "preformatted":
           return <pre {...attributes}>{children}</pre>;
+        case "image":
+          return <img {...attributes} src={element.url} alt="" />;
         default:
           return <p {...attributes}>{children}</p>;
       }
@@ -46,7 +51,27 @@ const RichTextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
     []
   );
 
-  const toggleBlock = (type: CustomElement["type"]) => {
+  const insertImage = (url: string) => {
+    const image: ImageElement = {
+      type: "image",
+      url,
+      children: [{ text: "" }],
+    };
+    Transforms.insertNodes(editor, image);
+  };
+
+  const handleInsertImage = (event: React.MouseEvent) => {
+    event.preventDefault();
+    if (imageUrlInputRef.current) {
+      const url = imageUrlInputRef.current.value;
+      if (url) {
+        insertImage(url);
+        imageUrlInputRef.current.value = "";
+      }
+    }
+  };
+
+  const toggleBlock = (type: ToggleElement["type"]) => {
     const isActive = isBlockActive(type);
     const isList = LIST_TYPES.includes(type);
 
@@ -62,7 +87,7 @@ const RichTextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
     });
 
     if (!isActive && isList) {
-      const block = { type, children: [] };
+      const block: ToggleElement = { type, children: [] };
       Transforms.wrapNodes(editor, block);
     }
   };
@@ -78,54 +103,61 @@ const RichTextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
 
   return (
     <div>
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          toggleBlock("heading-one");
-        }}
-      >
-        H1
-      </button>
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          toggleBlock("heading-two");
-        }}
-      >
-        H2
-      </button>
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          toggleBlock("block-quote");
-        }}
-      >
-        Blockquote
-      </button>
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          toggleBlock("numbered-list");
-        }}
-      >
-        Numbered List
-      </button>
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          toggleBlock("bulleted-list");
-        }}
-      >
-        Bulleted List
-      </button>
-      <button
-        onMouseDown={(event) => {
-          event.preventDefault();
-          toggleBlock("preformatted");
-        }}
-      >
-        Code Block
-      </button>
+      <div>
+        <button
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleBlock("heading-one");
+          }}
+        >
+          H1
+        </button>
+        <button
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleBlock("heading-two");
+          }}
+        >
+          H2
+        </button>
+        <button
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleBlock("block-quote");
+          }}
+        >
+          Blockquote
+        </button>
+        <button
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleBlock("numbered-list");
+          }}
+        >
+          Numbered List
+        </button>
+        <button
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleBlock("bulleted-list");
+          }}
+        >
+          Bulleted List
+        </button>
+        <button
+          onMouseDown={(event) => {
+            event.preventDefault();
+            toggleBlock("preformatted");
+          }}
+        >
+          Code Block
+        </button>
+      </div>
+      <div>
+        <input type="text" placeholder="Image URL" ref={imageUrlInputRef} />
+        <button onMouseDown={handleInsertImage}>Insert Image</button>
+      </div>
+
       <Slate
         editor={editor}
         initialValue={value}

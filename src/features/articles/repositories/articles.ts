@@ -8,6 +8,7 @@ export interface CreateValue {
   title: Article.Model["title"];
   text: Descendant[];
   tagIds: number[];
+  headerImage: string;
 }
 
 export interface UpdateValue {
@@ -34,15 +35,16 @@ export async function getOne(id: number): Promise<Article.Model> {
   return axios.get(`/articles/${id}`);
 }
 
-export async function create(value: CreateValue): Promise<Article.Model> {
-  const dto = { ...value, text: value.text };
-
+export async function create(
+  value: Article.CreateValue
+): Promise<Article.Model> {
   return axios.post(
     "/articles",
     {
-      title: dto.title,
-      text: dto.text,
-      tagIds: dto.tagIds,
+      title: value.title,
+      text: value.text,
+      tagIds: value.tagIds,
+      headerImage: value.headerImage,
     },
     {
       headers: {

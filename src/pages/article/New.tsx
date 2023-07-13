@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ArticleWriter from "../../features/articles/components/ArticleWriter";
+import ArticleWriter from "../../features/articles/components/ArticleWriter/ArticleWriter";
 import { Articles } from "../../features/articles/repositories";
 import { useCreateArticle } from "../../features/articles/api/createArticle";
 import { useNavigate } from "react-router-dom";
