@@ -1,97 +1,124 @@
-import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import ArticleWriter from "./ArticleWriter";
-import { Article, Articles } from "../../models";
-import { Tag } from "@/features/tags/models";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { renderHook, act } from "@testing-library/react";
+import { Descendant } from "slate";
+import { useArticleWriter } from "./hooks";
+import { Props } from "./ArticleWriter";
+import { Article } from "../../models";
 
-const mockArticle: Article.Model = {
-  id: 1,
-  title: "slate",
-  headerImage: "",
-  text: [
-    {
-      type: "paragraph",
-      children: [
-        {
-          text: "A line of text in a paragraph.",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      children: [
-        {
-          text: "",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      children: [
-        {
-          text: "slate",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      children: [
-        {
-          text: "",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      children: [
-        {
-          text: "slate",
-        },
-      ],
-    },
-  ],
-  createdAt: "2023-06-20T12:12:55.403Z",
-  updatedAt: "2023-06-20T12:12:55.403Z",
-  tags: [],
-};
-
-describe("ArticleWriter", () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
+describe("useArticleWriterフック", () => {
+  const initialValue: Article.Model = {
+    id: 1,
+    title: "Old Title",
+    tags: [],
+    text: [
+      {
+        type: "paragraph",
+        children: [{ text: "A line of text in a paragraph." }],
       },
+    ],
+    createdAt: "2023-07-13T11:31:48.170Z",
+    updatedAt: "2023-07-13T11:31:48.170Z",
+    headerImage: "",
+  };
+
+  const initialContent: Descendant[] = [
+    {
+      type: "paragraph",
+      children: [{ text: "A line of text in a paragraph." }],
     },
-  });
-  const onCreateValue = jest.fn();
+  ];
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  const newContent: Descendant[] = [
+    {
+      type: "paragraph",
+      children: [{ text: "A new line of text in a paragraph." }],
+    },
+  ];
 
-  test("新規作成時に初期値が空の状態でレンダリングされること", () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <ArticleWriter onCreateValue={onCreateValue} />
-      </QueryClientProvider>
-    );
-    const titleInputElement = screen.getByTestId("article-title");
-    expect(titleInputElement).toHaveValue("");
-  });
-
-  test("初期値が渡されたときに、渡された値でレンダリングされること", () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <ArticleWriter
-          initialValue={mockArticle}
-          onCreateValue={onCreateValue}
-        />
-      </QueryClientProvider>
+  it("タイトルの変更を処理できること", () => {
+    const { result } = renderHook(() =>
+      useArticleWriter({ initialValue, onCreateValue: jest.fn() } as Props)
     );
 
-    const titleInputElement = screen.getByTestId("article-title");
-    expect(titleInputElement).toHaveValue(mockArticle.title);
+    expect(result.current.title).toBe("Old Title");
+
+    act(() => {
+      result.current.onChangeTitle({
+        currentTarget: { value: "New Title" },
+      } as React.FormEvent<HTMLInputElement>);
+    });
+
+    expect(result.current.title).toBe("New Title");
+  });
+
+  it("ヘッダー画像の変更を処理できること", () => {
+    const { result } = renderHook(() =>
+      useArticleWriter({ initialValue, onCreateValue: jest.fn() } as Props)
+    );
+
+    expect(result.current.headerImage).toBe("");
+
+    act(() => {
+      result.current.setHeaderImage("New Image URL");
+    });
+
+    expect(result.current.headerImage).toBe("New Image URL");
+  });
+
+  it("コンテンツの変更を処理できること", () => {
+    const { result } = renderHook(() =>
+      useArticleWriter({ initialValue, onCreateValue: jest.fn() } as Props)
+    );
+
+    expect(result.current.content).toEqual(initialContent);
+
+    act(() => {
+      result.current.handleContentChange(newContent);
+    });
+
+    expect(result.current.content).toEqual(newContent);
+  });
+
+  it("有効なタイトルとコンテンツで送信するときの処理", () => {
+    const mockOnCreateValue = jest.fn();
+    const { result } = renderHook(() =>
+      useArticleWriter({
+        initialValue,
+        onCreateValue: mockOnCreateValue,
+      } as Props)
+    );
+
+    act(() => {
+      result.current.onChangeTitle({
+        currentTarget: { value: "New Title" },
+      } as React.FormEvent<HTMLInputElement>);
+      result.current.setHeaderImage("New Image URL");
+      result.current.handleContentChange(newContent);
+    });
+
+    act(() => {
+      result.current.onSubmit({
+        preventDefault: jest.fn(),
+      } as any);
+    });
+
+    expect(mockOnCreateValue).toHaveBeenCalled();
+  });
+
+  it("タイトルが空の場合の送信処理", () => {
+    const mockOnCreateValue = jest.fn();
+    const { result } = renderHook(() =>
+      useArticleWriter({
+        initialValue: { ...initialValue, title: "" },
+        onCreateValue: mockOnCreateValue,
+      } as Props)
+    );
+
+    act(() => {
+      result.current.onSubmit({
+        preventDefault: jest.fn(),
+      } as any);
+    });
+
+    expect(mockOnCreateValue).not.toHaveBeenCalled();
   });
 });
