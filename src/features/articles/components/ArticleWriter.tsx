@@ -19,7 +19,7 @@ interface Props {
 
 export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
   const [title, setTitle] = React.useState(initialValue?.title || "");
-  const [headerImage, setHeaderImage] = React.useState<string | null>(null);
+  const [headerImage, setHeaderImage] = React.useState<string>("");
   const handleContentChange = (newValue: Descendant[]) => {
     setContent(newValue);
   };
@@ -53,6 +53,7 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
 
       const data: Articles.CreateValue = {
         title,
+        headerImage,
         text: content,
         tagIds: checkedTagIds,
       };
@@ -65,7 +66,7 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
 
       onCreateValue(data);
     },
-    [title, content, checkedTagIds, onCreateValue]
+    [title, content, checkedTagIds, onCreateValue, headerImage]
   );
 
   return (

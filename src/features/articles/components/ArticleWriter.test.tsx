@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const mockArticle: Article.Model = {
   id: 1,
   title: "slate",
+  headerImage: "",
   text: [
     {
       type: "paragraph",

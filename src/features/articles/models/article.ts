@@ -8,6 +8,12 @@ export interface Model {
   readonly createdAt: string;
   readonly updatedAt: string;
   readonly tags: Tag.Model[];
+  readonly headerImage: string;
 }
 
-export type Value = Pick<Model, "title" | "text" | "tags">;
+export type CreateValue = {
+  title: Model["title"];
+  text: Model["text"];
+  tagIds: number[];
+  headerImage: Model["headerImage"];
+};
