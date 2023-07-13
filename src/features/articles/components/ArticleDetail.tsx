@@ -5,7 +5,7 @@ import { useRemoveArticle } from "../api/removeArticle";
 import { useArticle } from "../api/getArticle";
 import { assertIsDefined } from "../../../utils/assert";
 import ArticlePreview from "./ArticlePreview";
-import ArticleWriter from "./ArticleWriter";
+import ArticleWriter from "./ArticleWriter/ArticleWriter";
 import { Articles } from "../repositories";
 import { useUpdateArticle } from "../api/updateArticle";
 

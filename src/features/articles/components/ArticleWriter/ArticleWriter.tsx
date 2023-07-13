@@ -1,16 +1,11 @@
 import React from "react";
-import { Articles } from "../repositories";
-import { Article } from "../models";
-import RichTextEditor from "./RichTextEditor";
+import { Articles } from "../../repositories";
+import { Article } from "../../models";
+import RichTextEditor from "../RichTextEditor";
 import TagList from "@/features/tags/components/TagList";
 import ImageUploader from "@/features/images/components/ImageUpload/ImageUploader";
 import { Descendant } from "slate";
 
-/**
- *
- * {@label Props
- *
- */
 interface Props {
   // 初期値、新規作成時は渡さず更新時に渡す、
   initialValue?: Article.Model;
@@ -62,7 +57,6 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
         alert("titleがからです！");
         return;
       }
-      console.log("data", data);
 
       onCreateValue(data);
     },

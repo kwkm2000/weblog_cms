@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ArticleWriter from "./ArticleWriter";
-import { Article, Articles } from "../models";
+import { Article, Articles } from "../../models";
 import { Tag } from "@/features/tags/models";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
