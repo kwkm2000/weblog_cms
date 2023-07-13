@@ -85,26 +85,25 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
           />
         </>
       )}
-      <form onSubmit={onSubmit}>
-        <h2>Heading</h2>
-        <div>
-          <input
-            type="text"
-            value={title}
-            placeholder="title"
-            onChange={onChangeTitle}
-            data-testid="article-title"
-          />
-        </div>
-        <h2>Body</h2>
-        <RichTextEditor initialValue={content} onChange={handleContentChange} />
 
-        <div>
-          <h2>Tag</h2>
-          <TagList />
-        </div>
-        <button>Submit</button>
-      </form>
+      <h2>Heading</h2>
+      <div>
+        <input
+          type="text"
+          value={title}
+          placeholder="title"
+          onChange={onChangeTitle}
+          data-testid="article-title"
+        />
+      </div>
+      <h2>Body</h2>
+      <RichTextEditor initialValue={content} onChange={handleContentChange} />
+
+      <div>
+        <h2>Tag</h2>
+        <TagList />
+      </div>
+      <button onClick={onSubmit}>Submit</button>
     </>
   );
 }

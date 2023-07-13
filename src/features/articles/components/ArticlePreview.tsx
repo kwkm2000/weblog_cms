@@ -15,6 +15,8 @@ const nodeToHTML = (node: Descendant): string => {
       return `<p>${children}</p>`;
     case "heading-one":
       return `<h1>${children}</h1>`;
+    case "image":
+      return `<img src="${element.url}">`;
     // 他のノードタイプもここで処理します...
     default:
       return children;
