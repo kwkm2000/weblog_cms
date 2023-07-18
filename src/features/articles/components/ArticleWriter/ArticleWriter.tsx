@@ -1,7 +1,7 @@
 import React from "react";
 import { Articles } from "../../repositories";
 import { Article } from "../../models";
-import RichTextEditor from "../RichTextEditor";
+import TextEditor from "@/features/articles/components/TextEditor/TextEditor";
 import TagList from "@/features/tags/components/TagList";
 import ImageUploader from "@/features/images/components/ImageUpload/ImageUploader";
 import { useArticleWriter } from "./hooks";
@@ -55,7 +55,7 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
         />
       </div>
       <h2>Body</h2>
-      <RichTextEditor initialValue={content} onChange={handleContentChange} />
+      <TextEditor initialValue={content} onChange={handleContentChange} />
 
       <div>
         <h2>Tag</h2>
