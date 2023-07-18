@@ -4,7 +4,7 @@ import { useArticleWriter } from "./hooks";
 import { Props } from "./ArticleWriter";
 import { Article } from "../../models";
 
-describe("useArticleWriterフック", () => {
+describe("useArticleWriter", () => {
   const initialValue: Article.Model = {
     id: 1,
     title: "Old Title",

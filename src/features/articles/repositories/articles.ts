@@ -1,5 +1,5 @@
 import { Article, Articles } from "@/features/articles/models";
-import { RawDraftContentState } from "draft-js";
+
 import { axios } from "@/lib/axios";
 import storage from "@/utils/storage";
 import { Descendant } from "slate";
@@ -17,10 +17,6 @@ export interface UpdateValue {
 }
 
 const token = storage.getToken();
-
-function rawTextBlockToString(raw: RawDraftContentState) {
-  return JSON.stringify(raw, null, 2);
-}
 
 /**
  * 記事をすべて取得する
