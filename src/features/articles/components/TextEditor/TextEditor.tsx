@@ -88,7 +88,6 @@ const TextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
         <button
           onClick={(event) => {
             event.preventDefault();
-            console.log("imageUrl", imageUrl);
             handleInsertImage(imageUrl);
           }}
         >
@@ -105,6 +104,7 @@ const TextEditor: React.FC<Props> = ({ initialValue, onChange }) => {
         }}
       >
         <Editable
+          data-testid="article-editor"
           renderElement={({
             attributes,
             children,

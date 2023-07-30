@@ -61,7 +61,9 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
         <h2>Tag</h2>
         <TagList />
       </div>
-      <button onClick={onSubmit}>Submit</button>
+      <button onClick={onSubmit} data-testid="article-submit-button">
+        Submit
+      </button>
     </>
   );
 }
