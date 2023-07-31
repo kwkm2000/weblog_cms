@@ -45,10 +45,6 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
       };
 
       if (!title.length) {
-        if (!window) {
-          return;
-        }
-
         alert("titleがからです！");
         return;
       }
