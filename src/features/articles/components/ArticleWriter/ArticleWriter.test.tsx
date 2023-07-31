@@ -2,7 +2,7 @@ import { renderHook, act } from "@testing-library/react";
 import { Descendant } from "slate";
 import { useArticleWriter } from "./hooks";
 import { Props } from "./ArticleWriter";
-import { Article } from "../../models";
+import { Article } from "@/features/articles/models";
 
 describe("useArticleWriter", () => {
   const initialValue: Article.Model = {

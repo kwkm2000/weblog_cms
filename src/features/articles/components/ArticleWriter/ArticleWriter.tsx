@@ -1,6 +1,6 @@
 import React from "react";
-import { Articles } from "../../repositories";
-import { Article } from "../../models";
+import { Articles } from "@/features/articles/repositories";
+import { Article } from "@/features/articles/models";
 import TextEditor from "@/features/articles/components/TextEditor/TextEditor";
 import TagList from "@/features/tags/components/TagList";
 import ImageUploader from "@/features/images/components/ImageUpload/ImageUploader";
@@ -61,7 +61,9 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
         <h2>Tag</h2>
         <TagList />
       </div>
-      <button onClick={onSubmit}>Submit</button>
+      <button onClick={onSubmit} data-testid="article-submit-button">
+        Submit
+      </button>
     </>
   );
 }
