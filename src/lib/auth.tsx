@@ -11,7 +11,7 @@ import storage from "@/utils/storage";
 
 import { configureAuth } from "react-query-auth";
 
-async function handleUserResponse(data: UserResponse) {
+function handleUserResponse(data: UserResponse) {
   const { jwt, user } = data;
   storage.setToken(jwt);
 
@@ -28,7 +28,7 @@ async function loadUser() {
 
 async function loginFn(data: LoginCredentialsDTO) {
   const response = await loginWithUsernameAndPassword(data);
-  const user = await handleUserResponse(response);
+  const user = handleUserResponse(response);
   return user;
 }
 

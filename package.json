@@ -30,7 +30,8 @@
     "build": "craco build",
     "test:jest": "craco test",
     "test:coverage": "npm run test:jest -- --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "e2e": "playwright test"
   },
   "eslintConfig": {
     "extends": [
@@ -79,6 +80,7 @@
     "babel-jest": "^29.5.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "msw": "^1.2.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "playwright-msw": "^2.2.1"
   }
 }
