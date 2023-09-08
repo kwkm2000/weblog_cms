@@ -30,13 +30,10 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
     },
     [setTitle]
   );
+
   const onSubmit = React.useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
-
-      if (!content) {
-        throw Error;
-      }
 
       const data: Article.CreateValue = {
         title,
@@ -45,19 +42,14 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
         tagIds: checkedTagIds,
       };
 
-      // const result = articleSchema.safeParse(data);
-
-      // if (result.success === false) {
-      //   alert("入力値が不正です");
-      //   throw Error;
-      // }
-
-      if (!title.length) {
-        alert("titleがからです！");
-        return;
+      console.log("data", data);
+      try {
+        Article.CreateValueSchema.parse(data);
+        onCreateValue(data);
+      } catch (error) {
+        alert("入力値が不正です");
+        console.error(error);
       }
-
-      onCreateValue(data);
     },
     [title, content, checkedTagIds, onCreateValue, headerImage]
   );

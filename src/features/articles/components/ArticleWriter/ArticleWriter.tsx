@@ -8,6 +8,7 @@ import { useArticleWriter } from "./hooks";
 export interface Props {
   // 初期値、新規作成時は渡さず更新時に渡す、
   initialValue?: Article.Model;
+  // 記事の新規作成 or 記事に更新時に呼ばれる関数
   onCreateValue: (value: Article.CreateValue) => void;
 }
 
