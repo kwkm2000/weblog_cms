@@ -1,19 +1,33 @@
-import * as Tag from "../../tags/models/tag";
+import * as Tag from "@/features//tags/models/tag";
 import { Descendant } from "slate";
+import { z } from "zod";
 
-export interface Model {
-  readonly id: number;
-  readonly title: string;
-  readonly text: Descendant[];
-  readonly createdAt: string;
-  readonly updatedAt: string;
-  readonly tags: Tag.Model[];
-  readonly headerImage: string;
-}
+const TextSchema = z.record(z.any()).transform((v) => v as Descendant[]);
+const TagsSchema = z.record(z.any()).transform((v) => v as Tag.Model[]);
 
-export type CreateValue = {
-  title: Model["title"];
-  text: Model["text"];
-  tagIds: number[];
-  headerImage: Model["headerImage"];
-};
+export const ArticleSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  text: TextSchema,
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  tags: TagsSchema,
+  headerImage: z.string().url(),
+});
+
+export const CreateValueSchema = ArticleSchema.pick({
+  title: true,
+  text: true,
+  headerImage: true,
+}).extend({
+  tagIds: z.array(z.number()),
+});
+
+export const UpdateValueSchema = z.object({
+  id: z.number(),
+  value: CreateValueSchema,
+});
+
+export type Model = z.infer<typeof ArticleSchema>;
+export type CreateValue = z.infer<typeof CreateValueSchema>;
+export type UpdateValue = z.infer<typeof UpdateValueSchema>;

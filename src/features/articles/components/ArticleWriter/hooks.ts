@@ -1,5 +1,5 @@
 import React from "react";
-import { Articles } from "../../repositories";
+import { Article } from "@/features/articles/models";
 import { Descendant } from "slate";
 import { Props } from "./ArticleWriter";
 
@@ -16,9 +16,10 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
     },
   ]);
   const [checkedTagIds] = React.useState<number[]>(() => {
-    if (initialValue) {
+    if (initialValue && initialValue.tags) {
       return initialValue.tags.map((tag) => tag.id);
     }
+
     return [];
   });
   const onChangeTitle = React.useCallback(
@@ -37,12 +38,19 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
         throw Error;
       }
 
-      const data: Articles.CreateValue = {
+      const data: Article.CreateValue = {
         title,
         headerImage,
         text: content,
         tagIds: checkedTagIds,
       };
+
+      // const result = articleSchema.safeParse(data);
+
+      // if (result.success === false) {
+      //   alert("入力値が不正です");
+      //   throw Error;
+      // }
 
       if (!title.length) {
         alert("titleがからです！");

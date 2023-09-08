@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { Articles } from "../repositories";
-// import { Article } from "../models";
+import { Article } from "../models";
 import { queryClient } from "../../../lib/reactQuery";
 import { QUERY_KEY } from "./queryKey";
 
 type UpdateArticleOptions = {
   id: number;
-  value: Articles.CreateValue;
+  value: Article.CreateValue;
 };
 
 export const useUpdateArticle = () => {

@@ -1,20 +1,6 @@
 import { Article, Articles } from "@/features/articles/models";
-
 import { axios } from "@/lib/axios";
 import storage from "@/utils/storage";
-import { Descendant } from "slate";
-
-export interface CreateValue {
-  title: Article.Model["title"];
-  text: Descendant[];
-  tagIds: number[];
-  headerImage: string;
-}
-
-export interface UpdateValue {
-  id: Article.Model["id"];
-  value: CreateValue;
-}
 
 const token = storage.getToken();
 
@@ -50,7 +36,10 @@ export async function create(
   );
 }
 
-export async function update({ id, value }: UpdateValue): Promise<void> {
+export async function update({
+  id,
+  value,
+}: Article.UpdateValue): Promise<void> {
   const dto = { ...value, text: value.text };
 
   return axios.put(

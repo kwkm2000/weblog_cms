@@ -1,5 +1,4 @@
 import React from "react";
-import { Articles } from "@/features/articles/repositories";
 import { Article } from "@/features/articles/models";
 import TextEditor from "@/features/articles/components/TextEditor/TextEditor";
 import TagList from "@/features/tags/components/TagList";
@@ -9,7 +8,7 @@ import { useArticleWriter } from "./hooks";
 export interface Props {
   // 初期値、新規作成時は渡さず更新時に渡す、
   initialValue?: Article.Model;
-  onCreateValue: (value: Articles.CreateValue) => void;
+  onCreateValue: (value: Article.CreateValue) => void;
 }
 
 export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
