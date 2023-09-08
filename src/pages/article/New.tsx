@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ArticleWriter from "../../features/articles/components/ArticleWriter/ArticleWriter";
-import { Articles } from "../../features/articles/repositories";
-import { useCreateArticle } from "../../features/articles/api/createArticle";
+import ArticleWriter from "@/features/articles/components/ArticleWriter/ArticleWriter";
+import { Article } from "@/features/articles/models";
+import { useCreateArticle } from "@/features/articles/api/createArticle";
 import { useNavigate } from "react-router-dom";
 
 export default function ArticleNewPage() {
   const navigate = useNavigate();
   const createArticlesMutation = useCreateArticle();
   const createArticle = React.useCallback(
-    async (value: Articles.CreateValue) => {
+    async (value: Article.CreateValue) => {
       await createArticlesMutation.mutateAsync(value);
       navigate("/");
     },

@@ -2,11 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useRemoveArticle } from "../api/removeArticle";
+import { Article } from "@/features/articles/models";
 import { useArticle } from "../api/getArticle";
 import { assertIsDefined } from "../../../utils/assert";
-import ArticlePreview from "./ArticlePreview";
-import ArticleWriter from "./ArticleWriter/ArticleWriter";
-import { Articles } from "../repositories";
+import ArticlePreview from "@/features/articles/components/ArticlePreview";
+import ArticleWriter from "@/features/articles/components/ArticleWriter/ArticleWriter";
 import { useUpdateArticle } from "../api/updateArticle";
 
 export default function ArticleDetail() {
@@ -22,7 +22,7 @@ export default function ArticleDetail() {
     navigate("/");
   }, [id, navigate, removeArticleMutation]);
   const editArticle = React.useCallback(
-    async (value: Articles.CreateValue) => {
+    async (value: Article.CreateValue) => {
       await useUpdateArticleMutation.mutateAsync({ id: Number(id), value });
       articlesQuery.refetch(); // TODO キャッシュを更新するべきな気がするので直す
       setIsEditing(false);
@@ -40,10 +40,6 @@ export default function ArticleDetail() {
 
   return (
     <>
-      <div>
-        <button onClick={removeArticle}>削除</button>
-      </div>
-
       {isEditing ? (
         <ArticleWriter
           onCreateValue={editArticle}
@@ -77,6 +73,9 @@ export default function ArticleDetail() {
           </button>
         </div>
       )}
+      <div>
+        <button onClick={removeArticle}>削除</button>
+      </div>
     </>
   );
 }
