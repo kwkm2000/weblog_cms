@@ -4,24 +4,22 @@ import { Descendant } from "slate";
 import { Props } from "./ArticleWriter";
 
 export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
-  const [title, setTitle] = React.useState(initialValue?.title || "");
-  const [headerImage, setHeaderImage] = React.useState<string>("");
-  const handleContentChange = (newValue: Descendant[]) => {
-    setContent(newValue);
-  };
-  const [content, setContent] = React.useState<Descendant[]>([
+  const initialText = initialValue?.text || [
     {
       type: "paragraph",
       children: [{ text: "A line of text in a paragraph." }],
     },
-  ]);
-  const [checkedTagIds] = React.useState<number[]>(() => {
-    if (initialValue && initialValue.tags) {
-      return initialValue.tags.map((tag) => tag.id);
-    }
-
-    return [];
-  });
+  ];
+  const initialTagIds = initialValue?.tags
+    ? initialValue.tags.map((tag) => tag.id)
+    : [];
+  const [title, setTitle] = React.useState(initialValue?.title || "");
+  const [tagIds, setTagIds] = React.useState<number[]>(initialTagIds);
+  const [headerImage, setHeaderImage] = React.useState<string>("");
+  const handleContentChange = (newValue: Descendant[]) => {
+    setContent(newValue);
+  };
+  const [content, setContent] = React.useState<Descendant[]>(initialText);
   const onChangeTitle = React.useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       const { value } = e.currentTarget;
@@ -39,10 +37,9 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
         title,
         headerImage,
         text: content,
-        tagIds: checkedTagIds,
+        tagIds,
       };
 
-      console.log("data", data);
       try {
         Article.CreateValueSchema.parse(data);
         onCreateValue(data);
@@ -51,13 +48,14 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
         console.error(error);
       }
     },
-    [title, content, checkedTagIds, onCreateValue, headerImage]
+    [title, content, tagIds, onCreateValue, headerImage]
   );
 
   return {
     title,
     headerImage,
     setHeaderImage,
+    setTagIds,
     handleContentChange,
     content,
     onChangeTitle,
