@@ -37,7 +37,7 @@ export default function ArticleDetail() {
   if (articlesQuery.isError || !articlesQuery.data) {
     throw new Error("エラーです");
   }
-  console.log("articlesQuery.data", articlesQuery.data);
+
   return (
     <>
       {isEditing ? (
