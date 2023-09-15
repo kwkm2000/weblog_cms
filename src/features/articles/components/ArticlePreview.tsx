@@ -28,14 +28,14 @@ const serialize = (nodes: Descendant[]): string => {
   return nodes.map(nodeToHTML).join("");
 };
 
-interface SlateToHtmlProps {
+interface Props {
   value: Descendant[];
 }
 
 // Descendant[]を受け取り、それをHTMLに変換して描画するReactコンポーネント
-const SlateToHtml: FC<SlateToHtmlProps> = ({ value }) => {
+const ArticlePreview: FC<Props> = ({ value }) => {
   const html = serialize(value);
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 };
 
-export default SlateToHtml;
+export default ArticlePreview;

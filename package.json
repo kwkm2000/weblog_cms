@@ -30,7 +30,8 @@
     "test:jest": "craco test",
     "test:coverage": "npm run test:jest -- --coverage",
     "eject": "react-scripts eject",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui"
   },
   "eslintConfig": {
     "extends": [
