@@ -38,6 +38,30 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
         headerImage,
         text: content,
         tagIds,
+        draft: false,
+      };
+
+      try {
+        Article.CreateValueSchema.parse(data);
+        onCreateValue(data);
+      } catch (error) {
+        alert("入力値が不正です");
+        console.error(error);
+      }
+    },
+    [title, content, tagIds, onCreateValue, headerImage]
+  );
+
+  const onDraft = React.useCallback(
+    (e: React.SyntheticEvent) => {
+      e.preventDefault();
+
+      const data: Article.CreateValue = {
+        title,
+        headerImage,
+        text: content,
+        tagIds,
+        draft: true,
       };
 
       try {
@@ -60,5 +84,6 @@ export const useArticleWriter = ({ initialValue, onCreateValue }: Props) => {
     content,
     onChangeTitle,
     onSubmit,
+    onDraft,
   };
 };

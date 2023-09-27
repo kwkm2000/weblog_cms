@@ -21,6 +21,7 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
     content,
     onChangeTitle,
     onSubmit,
+    onDraft,
   } = useArticleWriter({
     initialValue,
     onCreateValue,
@@ -61,9 +62,17 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
         <h2>Tag</h2>
         <TagList />
       </div>
-      <button onClick={onSubmit} data-testid="article-submit-button">
-        Submit
-      </button>
+
+      <div>
+        <button onClick={onSubmit} data-testid="article-submit-button">
+          Submit
+        </button>
+      </div>
+      <div>
+        <button onClick={onDraft} data-testid="article-submit-button">
+          draft
+        </button>
+      </div>
     </>
   );
 }
