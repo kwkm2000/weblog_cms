@@ -69,7 +69,7 @@ export default function ArticleWriter({ initialValue, onCreateValue }: Props) {
         </button>
       </div>
       <div>
-        <button onClick={onDraft} data-testid="article-submit-button">
+        <button onClick={onDraft} data-testid="article-draft-button">
           draft
         </button>
       </div>
