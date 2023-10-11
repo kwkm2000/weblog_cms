@@ -33,6 +33,7 @@ describe("useTextEditor", () => {
     createdAt: "2023-07-13T11:31:48.170Z",
     updatedAt: "2023-07-13T11:31:48.170Z",
     headerImage: "",
+    draft: false,
   };
 
   beforeEach(() => {

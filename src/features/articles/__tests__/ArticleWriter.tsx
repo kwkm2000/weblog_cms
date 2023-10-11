@@ -85,10 +85,12 @@ describe("ArticleWriter", () => {
     const articleTitle = screen.getByTestId("article-title");
     const articleEditor = screen.getByTestId("article-editor");
     const articleSubmitButton = screen.getByTestId("article-submit-button");
+    const articleDraftButton = screen.getByTestId("article-draft-button");
 
     expect(articleTitle).toBeInTheDocument();
     expect(articleEditor).toBeInTheDocument();
     expect(articleSubmitButton).toBeInTheDocument();
+    expect(articleDraftButton).toBeInTheDocument();
   });
 
   it("記事のタイトルの入力", () => {
