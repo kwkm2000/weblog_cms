@@ -156,10 +156,6 @@ describe("useArticleWriter", () => {
     });
 
     expect(mockOnCreateValue).toHaveBeenCalled();
-    console.log(
-      "mockOnCreateValue.mock.calls[0][0]",
-      mockOnCreateValue.mock.calls[0][0]
-    );
     expect(mockOnCreateValue.mock.calls[0][0]).toEqual({
       title: "New Title",
       headerImage: "New Image URL",
