@@ -7,25 +7,6 @@ test.beforeEach(async ({ page, worker }) => {
   // mswのワーカーを開始
   worker.use(
     rest.post("/auth/login", (req, res, ctx) => {
-      // {
-      //   "title": "こんにち",
-      //   "text": [
-      //     {
-      //       "type": "paragraph",
-      //       "children": [
-      //         {
-      //           "text": "わーーー"
-      //         }
-      //       ]
-      //     }
-      //   ],
-      //   "headerImage": "",
-      //   "createdAt": "2023-09-01T14:52:15.930Z",
-      //   "updatedAt": "2023-09-01T14:52:15.930Z",
-      //   "tags": [],
-      //   "id": 11
-      // }
-
       return res(
         ctx.status(201),
         ctx.json({
