@@ -27,6 +27,7 @@ export async function create(
       text: value.text,
       tagIds: value.tagIds,
       headerImage: value.headerImage,
+      draft: value.draft,
     },
     {
       headers: {
