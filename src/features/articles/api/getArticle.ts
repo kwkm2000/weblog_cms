@@ -1,13 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
-import { Articles } from "../repositories";
+import useSWR from "swr";
+import axios from "axios";
+import { Article } from "../models";
 
 type UseArticleOptions = {
   id: number;
 };
 
+const fetcher = (url: string): Promise<Article.Model> => {
+  return axios.get(url).then((res) => res.data);
+};
+
 export const useArticle = ({ id }: UseArticleOptions) => {
-  return useQuery({
-    queryKey: ["article"],
-    queryFn: () => Articles.getOne(id),
-  });
+  const { data, error, isLoading } = useSWR(`/articles/${id}`, fetcher);
+
+  return {
+    Article: data,
+    isError: error,
+    isLoading,
+  };
 };

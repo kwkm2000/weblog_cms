@@ -1,5 +1,5 @@
 import React from "react";
-import { useRegister } from "@/lib/auth";
+import useAuth from "@/lib/auth";
 
 type LoginFormProps = {
   onSuccess: () => void;
@@ -8,14 +8,15 @@ type LoginFormProps = {
 export const RegisterForm = ({ onSuccess }: LoginFormProps) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const register = useRegister();
+
+  const { register } = useAuth();
 
   return (
     <div>
       <form
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          register.mutate({ username, password });
+          register({ username, password });
         }}
       >
         <input

@@ -1,4 +1,4 @@
-// import { Spinner } from "@/components/Elements";
+// // import { Spinner } from "@/components/Elements";
 import {
   loginWithUsernameAndPassword,
   getUser,
@@ -9,7 +9,7 @@ import {
 } from "@/features/auth";
 import storage from "@/utils/storage";
 
-import { configureAuth } from "react-query-auth";
+// import { configureAuth } from "react-query-auth";
 
 function handleUserResponse(data: UserResponse) {
   const { jwt, user } = data;
@@ -28,6 +28,7 @@ async function loadUser() {
 
 async function loginFn(data: LoginCredentialsDTO) {
   const response = await loginWithUsernameAndPassword(data);
+  console.log("response", response);
   const user = handleUserResponse(response);
   return user;
 }
@@ -43,9 +44,19 @@ async function logoutFn() {
   window.location.assign(window.location.origin as unknown as string);
 }
 
-export const { useUser, useLogin, useRegister, useLogout } = configureAuth({
-  userFn: loadUser,
-  loginFn: loginFn,
-  registerFn: registerFn,
-  logoutFn: logoutFn,
-});
+// export const { useUser, useLogin, useRegister, useLogout } = configureAuth({
+//   userFn: loadUser,
+//   loginFn: loginFn,
+//   registerFn: registerFn,
+//   logoutFn: logoutFn,
+// });
+
+function useAuth() {
+  return {
+    login: loginFn,
+    register: registerFn,
+    logout: logoutFn,
+  };
+}
+
+export default useAuth;

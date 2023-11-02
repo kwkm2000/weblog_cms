@@ -6,7 +6,7 @@ export type LoginCredentialsDTO = {
   password: string;
 };
 
-export const loginWithUsernameAndPassword = (
+export const loginWithUsernameAndPassword = async (
   data: LoginCredentialsDTO
 ): Promise<UserResponse> => {
   return login(data);

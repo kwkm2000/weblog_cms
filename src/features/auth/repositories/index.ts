@@ -6,6 +6,7 @@ export async function login(
   loginCredentialsDTO: LoginCredentialsDTO
 ): Promise<UserResponse> {
   const { username, password } = loginCredentialsDTO;
+  const res = await axios.post("/auth/login", { username, password });
 
-  return await axios.post("/auth/login", { username, password });
+  return res.data;
 }

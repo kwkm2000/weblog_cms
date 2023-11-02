@@ -16,7 +16,7 @@ export default function ArticleDetail() {
   const useUpdateArticleMutation = useUpdateArticle();
   const removeArticleMutation = useRemoveArticle({ id: Number(id) });
   assertIsDefined(id);
-  const articlesQuery = useArticle({ id: Number(id) });
+  const { Article, isError, isLoading } = useArticle({ id: Number(id) });
   const removeArticle = React.useCallback(async () => {
     await removeArticleMutation.mutateAsync(Number(id));
     navigate("/");
@@ -24,31 +24,28 @@ export default function ArticleDetail() {
   const editArticle = React.useCallback(
     async (value: Article.CreateValue) => {
       await useUpdateArticleMutation.mutateAsync({ id: Number(id), value });
-      articlesQuery.refetch(); // TODO キャッシュを更新するべきな気がするので直す
+      // Article.refetch(); // TODO キャッシュを更新するべきな気がするので直す
       setIsEditing(false);
     },
-    [useUpdateArticleMutation, id, articlesQuery]
+    [useUpdateArticleMutation, id]
   );
 
-  if (articlesQuery.isLoading) {
+  if (isLoading) {
     return <p>loading...</p>;
   }
 
-  if (articlesQuery.isError || !articlesQuery.data) {
+  if (isError || !Article) {
     throw new Error("エラーです");
   }
 
   return (
     <>
       {isEditing ? (
-        <ArticleWriter
-          onCreateValue={editArticle}
-          initialValue={articlesQuery.data}
-        />
+        <ArticleWriter onCreateValue={editArticle} initialValue={Article} />
       ) : (
         <>
-          <h2>{articlesQuery.data.title}</h2>
-          <ArticlePreview value={articlesQuery.data.text} />
+          <h2>{Article.title}</h2>
+          <ArticlePreview value={Article.text} />
         </>
       )}
 

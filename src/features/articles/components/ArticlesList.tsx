@@ -1,21 +1,21 @@
-// import { useArticles } from "@features/articles/api/getArticle";
-import { useArticles } from "../api/getArticles";
+import { useArticles } from "@/features/articles/api/getArticles";
 import { Link } from "react-router-dom";
 
 export function ArticlesList() {
-  const articlesQuery = useArticles();
+  const { articles, isError, isLoading } = useArticles();
+  console.log("articles", articles);
 
-  if (articlesQuery.isLoading) {
+  if (isLoading) {
     return <p>loading...</p>;
   }
 
-  if (!articlesQuery?.data?.length) {
+  if (!articles?.length) {
     <p>記事がみつかりません</p>;
   }
 
   return (
     <ul>
-      {articlesQuery.data?.map((article) => {
+      {articles?.map((article) => {
         return (
           <li key={article.id}>
             <Link to={`/article/${article.id}`}>{article.title}</Link>
