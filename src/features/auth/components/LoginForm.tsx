@@ -1,7 +1,6 @@
 import React from "react";
 import useAuth from "@/lib/auth";
-import { loginWithUsernameAndPassword } from "@/features/auth/api/login";
-import { login } from "@/features/auth/repositories/index";
+import { useNavigate } from "react-router-dom";
 
 type LoginFormProps = {
   onSuccess: () => void;
@@ -11,6 +10,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -20,7 +20,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
           try {
             // const userResponse = await login({ username, password });
-            login({ username, password });
+            await login({ username, password });
+            navigate("/");
           } catch (error) {
             console.error("login failed", error);
           }

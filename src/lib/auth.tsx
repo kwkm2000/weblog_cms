@@ -28,7 +28,6 @@ async function loadUser() {
 
 async function loginFn(data: LoginCredentialsDTO) {
   const response = await loginWithUsernameAndPassword(data);
-  console.log("response", response);
   const user = handleUserResponse(response);
   return user;
 }
@@ -53,6 +52,7 @@ async function logoutFn() {
 
 function useAuth() {
   return {
+    user: loadUser,
     login: loginFn,
     register: registerFn,
     logout: logoutFn,
