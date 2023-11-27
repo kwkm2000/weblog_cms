@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import axios from "axios";
+import { axios } from "@/lib/axios";
 import { Article } from "../models";
 
 type UseArticleOptions = {
