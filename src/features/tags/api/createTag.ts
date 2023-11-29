@@ -11,7 +11,6 @@ export const useCreateTag = () => {
 
   const createTag = async (newTagLabel: string) => {
     // 楽観的更新
-
     const tmpNewTag = {
       id: previousTags.length + 1,
       label: newTagLabel,
@@ -19,7 +18,7 @@ export const useCreateTag = () => {
       updatedAt: new Date(),
     };
 
-    console.log("[...previousTags, tmpNewTag]", [...previousTags, tmpNewTag]);
+    // TODO キャッシュを更新しているが表示が更新されないため修正する
     mutate([...previousTags, tmpNewTag], false);
 
     try {
