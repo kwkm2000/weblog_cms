@@ -1,31 +1,42 @@
-import { useMutation } from "@tanstack/react-query";
+import useSWR from "swr";
 import { Tags } from "@/features/tags/repositories";
-import { Tag } from "@/features/tags/models";
-import { queryClient } from "@/lib/reactQuery";
 import { QUERY_KEY } from "@/features/tags/api/queryKey";
 
-/**
- * タグを作成するAPI
- *
- * @returns
- */
 export const useCreateTag = () => {
-  return useMutation({
-    mutationFn: Tags.create,
-    onMutate: async (newTag) => {
-      await queryClient.cancelQueries([QUERY_KEY]);
+  const {
+    data: previousTags = [],
+    error,
+    mutate,
+  } = useSWR(QUERY_KEY, Tags.getAll);
 
-      const previousTags = queryClient.getQueryData<Tag.Model[]>([QUERY_KEY]);
+  const createTag = async (newTagLabel: string) => {
+    // 楽観的更新
 
-      return previousTags;
-    },
-    onError: (_, __, context: any) => {
-      if (context?.previousTags) {
-        queryClient.setQueryData([QUERY_KEY], context.previousTags);
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY]);
-    },
-  });
+    const tmpNewTag = {
+      id: previousTags.length + 1,
+      label: newTagLabel,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    console.log("[...previousTags, tmpNewTag]", [...previousTags, tmpNewTag]);
+    mutate([...previousTags, tmpNewTag], false);
+
+    try {
+      const newTagCreated = await Tags.create(newTagLabel);
+
+      // キャッシュ更新
+      mutate([...previousTags, newTagCreated]);
+
+      return newTagCreated;
+    } catch (error) {
+      console.error(error);
+      // On error, roll back to the previous value
+      mutate(previousTags, false);
+
+      throw error;
+    }
+  };
+
+  return { createTag, error };
 };
