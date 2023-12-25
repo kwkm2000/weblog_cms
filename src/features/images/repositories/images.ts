@@ -7,8 +7,9 @@ export type UploadResponse = {
   imageUrl: string;
 };
 
-export function getAll(): Promise<string[]> {
-  return axios.get("/images");
+export async function getAll(): Promise<string[]> {
+  const response = await axios.get("/images");
+  return response.data;
 }
 
 export async function uploadImage(formData: FormData): Promise<string> {

@@ -7,15 +7,17 @@ type Props = {
 };
 
 export default function ImagesList({ onClickImage }: Props) {
-  const imagesQuery = useImages();
+  const { images, isLoading } = useImages();
 
-  if (imagesQuery.isLoading) {
+  if (isLoading) {
     return <p>loading...</p>;
   }
 
+  console.log("images", images);
+
   return (
     <ul className={styles.root}>
-      {imagesQuery.data?.map((image, index) => {
+      {images?.map((image, index) => {
         return (
           <li key={index} className={styles.column}>
             <button
