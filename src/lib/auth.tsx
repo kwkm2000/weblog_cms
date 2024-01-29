@@ -1,4 +1,3 @@
-// // import { Spinner } from "@/components/Elements";
 import {
   loginWithUsernameAndPassword,
   getUser,
@@ -8,8 +7,6 @@ import {
   RegisterCredentialsDTO,
 } from "@/features/auth";
 import storage from "@/utils/storage";
-
-// import { configureAuth } from "react-query-auth";
 
 function handleUserResponse(data: UserResponse) {
   const { jwt, user } = data;
