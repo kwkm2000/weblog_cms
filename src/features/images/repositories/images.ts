@@ -9,10 +9,12 @@ export type UploadResponse = {
 
 export async function getAll(): Promise<string[]> {
   const response = await axios.get("/images");
+  console.log("images response.data", response.data);
   return response.data;
 }
 
 export async function uploadImage(formData: FormData): Promise<string> {
+  console.log("uploadImage formData", formData);
   return axios.post("/images", formData, {
     headers: {
       Authorization: `Bearer ${token}`,

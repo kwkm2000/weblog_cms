@@ -1,23 +1,44 @@
-import { useMutation } from "@tanstack/react-query";
+import useSWR from "swr";
 import { Images } from "../repositories";
 import { QUERY_KEY } from "@/features/images/api/queryKey";
-import { queryClient } from "@/lib/reactQuery";
 
 export function useRemoveImage() {
-  return useMutation({
-    mutationFn: Images.remove,
-    onMutate: async (keyToRemove) => {
-      await queryClient.cancelQueries([QUERY_KEY]);
+  const {
+    data: images = [],
+    error,
+    mutate,
+  } = useSWR([QUERY_KEY], Images.getAll);
 
-      const previousImages = queryClient.getQueryData([QUERY_KEY]);
+  const removeImage = async (key: string) => {
+    const previousImages = images;
 
-      return { previousImages };
-    },
-    onError: (error, keyToRemove, context: any) => {
-      queryClient.setQueryData([QUERY_KEY], context.previousImages);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries([QUERY_KEY]);
-    },
-  });
+    mutate(
+      images.filter((image) => image !== key),
+      false
+    );
+    try {
+      await Images.remove(key);
+    } catch (error) {
+      mutate(previousImages, false);
+      throw error;
+    }
+  };
+
+  // const remove = async (keyToRemove) => {
+  //   const previousImages = images;
+
+  //   try {
+  //     await Images.remove(keyToRemove);
+  //     mutate(
+  //       [QUERY_KEY],
+  //       images.filter((image) => image.key !== keyToRemove),
+  //       false
+  //     );
+  //   } catch (error) {
+  //     mutate([QUERY_KEY], previousImages, false);
+  //     throw error;
+  //   }
+  // };
+
+  return { images, error, removeImage };
 }

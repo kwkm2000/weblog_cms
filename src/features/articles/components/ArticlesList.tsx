@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 export function ArticlesList() {
   const { articles, isError, isLoading } = useArticles();
-  console.log("articles", articles);
 
   if (isLoading) {
     return <p>loading...</p>;

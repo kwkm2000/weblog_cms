@@ -5,7 +5,6 @@ export const useTagCreator = () => {
   const [label, setLabel] = useState("");
   const createTagMutation = useCreateTag();
   const createTag = useCallback(async () => {
-    console.log("label", label);
     await createTagMutation.createTag(label);
     setLabel("");
   }, [label, createTagMutation]);

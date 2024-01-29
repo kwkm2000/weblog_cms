@@ -1,7 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import useSWR from "swr";
 import { Articles } from "@/features/articles/repositories";
 import { Article } from "@/features/articles/models";
-import { queryClient } from "@/lib/reactQuery";
 import { QUERY_KEY } from "./queryKey";
 
 /**
@@ -10,24 +9,40 @@ import { QUERY_KEY } from "./queryKey";
  * @returns
  */
 export const useCreateArticle = () => {
-  return useMutation({
-    mutationFn: Articles.create,
-    onMutate: async (newArticle) => {
-      await queryClient.cancelQueries([QUERY_KEY]);
+  const {
+    data: previousArticles = [],
+    error,
+    mutate,
+  } = useSWR(QUERY_KEY, Articles.getALl);
 
-      const previousArticles = queryClient.getQueryData<Article.Model[]>([
-        QUERY_KEY,
-      ]);
+  const createArticle = async (newArticle: Article.CreateValue) => {
+    // 楽観的更新
+    const tmpNewArticle = {
+      id: previousArticles.length + 1,
+      title: newArticle.title,
+      text: newArticle.text,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
 
-      return previousArticles;
-    },
-    onError: (_, __, context: any) => {
-      if (context?.previousArticles) {
-        queryClient.setQueryData([QUERY_KEY], context.previousArticles);
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY]);
-    },
-  });
+    // TODO キャッシュを更新しているが表示が更新されないため修正する
+    // mutate([...previousArticles, tmpNewArticle], false);
+
+    try {
+      const newArticleCreated = await Articles.create(newArticle);
+
+      // キャッシュ更新
+      mutate([...previousArticles, newArticleCreated]);
+
+      return newArticleCreated;
+    } catch (error) {
+      console.error(error);
+      // On error, roll back to the previous value
+      mutate(previousArticles, false);
+
+      throw error;
+    }
+  };
+
+  return { createArticle, error };
 };

@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useRemoveArticle } from "../api/removeArticle";
 import { Article } from "@/features/articles/models";
 import { useArticle } from "../api/getArticle";
 import { assertIsDefined } from "../../../utils/assert";
 import ArticlePreview from "@/features/articles/components/ArticlePreview";
 import ArticleWriter from "@/features/articles/components/ArticleWriter/ArticleWriter";
 import { useUpdateArticle } from "../api/updateArticle";
+import { useRemoveArticle } from "../api/removeArticle";
 
 export default function ArticleDetail() {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -18,9 +18,9 @@ export default function ArticleDetail() {
   assertIsDefined(id);
   const { Article, isError, isLoading } = useArticle({ id: Number(id) });
   const removeArticle = React.useCallback(async () => {
-    await removeArticleMutation.mutateAsync(Number(id));
+    await removeArticleMutation.removeArticle();
     navigate("/");
-  }, [id, navigate, removeArticleMutation]);
+  }, [navigate, removeArticleMutation]);
   const editArticle = React.useCallback(
     async (value: Article.CreateValue) => {
       await useUpdateArticleMutation.mutateAsync({ id: Number(id), value });

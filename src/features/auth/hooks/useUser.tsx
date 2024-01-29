@@ -8,8 +8,6 @@ function useUser() {
   useEffect(() => {
     const token = storage.getToken();
     if (token) {
-      console.log("token", token);
-
       axios
         .get("/auth/me", {
           headers: {
@@ -17,7 +15,6 @@ function useUser() {
           },
         })
         .then((response) => {
-          console.log("response", response);
           setUser(response.data);
         })
         .catch(() => setUser(null));
