@@ -1,6 +1,5 @@
 import {
   loginWithUsernameAndPassword,
-  getUser,
   registerWithUsernameAndPassword,
   UserResponse,
   LoginCredentialsDTO,
@@ -13,14 +12,6 @@ function handleUserResponse(data: UserResponse) {
   storage.setToken(jwt);
 
   return user;
-}
-
-async function loadUser() {
-  if (storage.getToken()) {
-    const data = await getUser();
-    return data;
-  }
-  return null;
 }
 
 async function loginFn(data: LoginCredentialsDTO) {
@@ -49,7 +40,6 @@ async function logoutFn() {
 
 function useAuth() {
   return {
-    user: loadUser,
     login: loginFn,
     register: registerFn,
     logout: logoutFn,

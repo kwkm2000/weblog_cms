@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { axios } from "@/lib/axios";
 import storage from "@/utils/storage";
 
-function useUser() {
+async function useUser() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {

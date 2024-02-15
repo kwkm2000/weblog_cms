@@ -3,7 +3,7 @@ import { useRoutes } from "react-router-dom";
 import { protectedRoutes } from "./protected";
 import { publicRoutes } from "./public";
 import { Link } from "react-router-dom";
-import useUser from "@/features/auth/hooks/useUser";
+import {useUser} from "@/features/auth/api/useUser";
 
 export const AppRouters = () => {
   const user = useUser();
@@ -20,7 +20,9 @@ export const AppRouters = () => {
     },
   ];
 
-  const routes = user ? protectedRoutes : publicRoutes;
+  console.log('user', user.user);
+
+  const routes = user.user ? protectedRoutes : publicRoutes;
   const element = useRoutes([...routes, ...commonRoutes]);
 
   return <>{element}</>;

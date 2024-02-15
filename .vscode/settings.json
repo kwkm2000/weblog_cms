@@ -1,4 +1,5 @@
 {
+    "eslint.codeActionsOnSave.mode": "all",
     "cSpell.words": [
         "testid"
     ]
