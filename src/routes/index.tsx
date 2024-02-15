@@ -20,8 +20,6 @@ export const AppRouters = () => {
     },
   ];
 
-  console.log("user", user.user);
-
   const routes = user.user ? protectedRoutes : publicRoutes;
   const element = useRoutes([...routes, ...commonRoutes]);
 

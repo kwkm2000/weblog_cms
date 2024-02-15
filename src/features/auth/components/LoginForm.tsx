@@ -20,8 +20,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
           try {
             // const userResponse = await login({ username, password });
-            const user = await login({ username, password });
-            console.log('login form user', user);
+             await login({ username, password });
+
             navigate("/");
           } catch (error) {
             console.error("login failed", error);

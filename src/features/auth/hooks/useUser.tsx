@@ -4,7 +4,6 @@ import useSWR from "swr";
 
 const fetcher = async () => {
   const token = storage.getToken();
-  console.log("token", token);
   const response = await axios.get("/auth/me", {
     headers: {
       Authorization: `Bearer ${token}`,

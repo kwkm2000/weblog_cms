@@ -13,8 +13,6 @@ export default function ImagesList({ onClickImage }: Props) {
     return <p>loading...</p>;
   }
 
-  console.log("images", images);
-
   return (
     <ul className={styles.root}>
       {images?.map((image, index) => {
