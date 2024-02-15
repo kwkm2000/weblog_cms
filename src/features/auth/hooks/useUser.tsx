@@ -1,29 +1,25 @@
-import { useState, useEffect } from "react";
 import { axios } from "@/lib/axios";
 import storage from "@/utils/storage";
+import useSWR from "swr";
 
-async function useUser() {
-  const [user, setUser] = useState(null);
+const fetcher = async () => {
+  const token = storage.getToken();
+  console.log("token", token);
+  const response = await axios.get("/auth/me", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  useEffect(() => {
-    const token = storage.getToken();
-    if (token) {
-      axios
-        .get("/auth/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          setUser(response.data);
-        })
-        .catch(() => setUser(null));
-    } else {
-      setUser(null);
-    }
-  }, []);
+  return response.data;
+};
 
-  return user;
-}
+export const useUser = () => {
+  const { data, error } = useSWR("/auth/me", fetcher);
 
-export default useUser;
+  return {
+    user: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
