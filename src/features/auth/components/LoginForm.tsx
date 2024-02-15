@@ -1,6 +1,6 @@
 import React from "react";
-import { useLogin } from "@/lib/auth";
-import { loginWithUsernameAndPassword } from "@/features/auth/api/login";
+import { useLogin } from '@/features/auth/hooks/useLogin';
+import { useNavigate } from "react-router-dom";
 
 type LoginFormProps = {
   onSuccess: () => void;
@@ -9,16 +9,23 @@ type LoginFormProps = {
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const login = useLogin();
+  const { login } = useLogin();
+  const navigate = useNavigate();
 
   return (
     <div>
       <form
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+        onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          // useLogin({ username, password });
-          login.mutate({ username, password });
-          loginWithUsernameAndPassword({ username, password });
+
+          try {
+            // const userResponse = await login({ username, password });
+            const user = await login({ username, password });
+            console.log('login form user', user);
+            navigate("/");
+          } catch (error) {
+            console.error("login failed", error);
+          }
         }}
       >
         <input

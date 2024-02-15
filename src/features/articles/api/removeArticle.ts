@@ -1,43 +1,27 @@
-import { useMutation } from "@tanstack/react-query";
-import { Articles } from "../repositories";
-import { Article } from "../models";
-import { queryClient } from "../../../lib/reactQuery";
+import useSWR from "swr";
+import { Articles } from "@/features/articles/repositories";
 import { QUERY_KEY } from "./queryKey";
 
 type UseRemoveArticleOptions = {
   id: number;
 };
 
-/**
- * 記事を削除するAPI
- *
- * @param id 記事のID
- * @returns
- */
 export const useRemoveArticle = ({ id }: UseRemoveArticleOptions) => {
-  return useMutation({
-    mutationFn: Articles.remove,
-    onMutate: async () => {
-      await queryClient.cancelQueries([QUERY_KEY]);
+  const {
+    data: previousArticles = [],
+    error,
+    mutate,
+  } = useSWR(QUERY_KEY, Articles.getALl);
 
-      const previousArticles = queryClient.getQueryData<Article.Model[]>([
-        QUERY_KEY,
-      ]);
+  const removeArticle = async () => {
+    const newArticles = previousArticles.filter((article) => article.id !== id);
 
-      queryClient.setQueryData(
-        [QUERY_KEY, id],
-        previousArticles?.filter((article) => article.id !== id)
-      );
+    // Optimistically update cache
+    mutate(newArticles, false);
 
-      return previousArticles;
-    },
-    onError: (_, __, context: any) => {
-      if (context?.previousArticles) {
-        queryClient.setQueryData([QUERY_KEY, id], context.previousArticles);
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY, id]);
-    },
-  });
+    // Send delete request
+    await Articles.remove(id);
+  };
+
+  return { removeArticle, error };
 };

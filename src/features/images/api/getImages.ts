@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import useSWR from "swr";
 import { Images } from "@/features/images/repositories";
-import { QUERY_KEY } from "./queryKey";
 
 export const useImages = () => {
-  return useQuery({
-    queryKey: [QUERY_KEY],
-    queryFn: () => Images.getAll(),
-  });
+  const { data, error, isLoading } = useSWR("/api/images", Images.getAll);
+
+  return {
+    images: data,
+    isLoading,
+    isError: error,
+  };
 };

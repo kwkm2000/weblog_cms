@@ -66,6 +66,7 @@ describe("ArticleWriter", () => {
     ],
     createdAt: "2023-07-18T12:32:56.014Z",
     updatedAt: "2023-07-18T12:32:56.014Z",
+    draft: false,
   };
 
   beforeAll(() => server.listen());

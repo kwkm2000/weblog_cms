@@ -1,19 +1,19 @@
 import { useTags } from "@/features/tags/api/getTags";
 
 export default function TagList() {
-  const tagsQuery = useTags();
+  const { tags, isError, isLoading } = useTags();
 
-  if (tagsQuery.isLoading) {
+  if (isLoading) {
     return <p>loading...</p>;
   }
 
-  if (!tagsQuery.data) {
+  if (!tags) {
     return null;
   }
 
   return (
     <ul>
-      {tagsQuery.data.map((tag) => {
+      {tags.map((tag) => {
         return (
           <li key={tag.id}>
             <input type="checkbox" />

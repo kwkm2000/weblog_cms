@@ -9,12 +9,13 @@ const token = storage.getToken();
  *
  * @returns タグのPromiseObject
  */
-export function getALl(): Promise<Tag.Model[]> {
-  return axios.get(`/tags`, {
+export async function getAll(): Promise<Tag.Model[]> {
+  const response = await axios.get(`/tags`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  return response.data;
 }
 
 export async function getOne(id: Tag.Model["id"]): Promise<Tag.Model> {

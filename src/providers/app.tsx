@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter } from "react-router-dom";
 
 type AppProviderProps = {
@@ -26,9 +25,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     <React.Suspense fallback={<div>loading...</div>}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <QueryClientProvider client={queryClient}>
-          {process.env.NODE_ENV !== "production" && (
-            <ReactQueryDevtools initialIsOpen={false} />
-          )}
           <BrowserRouter>{children}</BrowserRouter>
         </QueryClientProvider>
       </ErrorBoundary>

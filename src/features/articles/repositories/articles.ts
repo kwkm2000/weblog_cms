@@ -10,7 +10,8 @@ const token = storage.getToken();
  * @returns 記事一覧のPromiseObject
  */
 export async function getALl(): Promise<Articles.Model> {
-  return axios.get("/articles");
+  const response = await axios.get("/articles");
+  return response.data;
 }
 
 export async function getOne(id: number): Promise<Article.Model> {
