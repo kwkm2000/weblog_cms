@@ -1,8 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { mutate } from "swr";
 import { Articles } from "../repositories";
 import { Article } from "../models";
-import { queryClient } from "../../../lib/reactQuery";
-import { QUERY_KEY } from "./queryKey";
 
 type UpdateArticleOptions = {
   id: number;
@@ -10,40 +8,19 @@ type UpdateArticleOptions = {
 };
 
 export const useUpdateArticle = () => {
-  return useMutation({
-    mutationFn: Articles.update,
-    onMutate: async (newArticleOption: UpdateArticleOptions) => {
-      // const newArticle: Article.Model = {
-      //   id: newArticleOption.id,
+  const updateArticle = async (newArticleOption: UpdateArticleOptions) => {
+    mutate(
+      `/article/${newArticleOption.id}`,
+      async () => {
+        const updateArticle = await Articles.update({
+          id: newArticleOption.id,
+          value: newArticleOption.value,
+        });
+        return updateArticle;
+      },
+      false
+    );
+  };
 
-      //   tags: newArticleOption.value.tagIds,
-      //   text: newArticleOption.value.text,
-      //   title: newArticleOption.value.title,
-      // };
-      // optimistic updateを上書きしないようにリフェッチをキャンセルする
-      await queryClient.cancelQueries({ queryKey: [QUERY_KEY] });
-      // snapshot
-      // const previousArticle = queryClient.getQueryData<Article.Model[]>([
-      //   QUERY_KEY,
-      //   newArticle.id,
-      // ]);
-
-      // queryClient.setQueryData([QUERY_KEY], () => {
-      //   return;
-      // });
-
-      // return { previousArticle, newArticle };
-    },
-    // onError: (_, __, context: any) => {
-    // if (context?.previousArticles) {
-    //   queryClient.setQueryData(
-    //     ["article", id, value],
-    //     context.previousArticles
-    //   );
-    // }
-    // },
-    onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEY]);
-    },
-  });
+  return { updateArticle };
 };

@@ -6,14 +6,14 @@ type UseRemoveArticleOptions = {
   id: number;
 };
 
-export const useRemoveArticle = ({ id }: UseRemoveArticleOptions) => {
+export const useRemoveArticle = () => {
   const {
     data: previousArticles = [],
     error,
     mutate,
   } = useSWR(QUERY_KEY, Articles.getALl);
 
-  const removeArticle = async () => {
+  const removeArticle = async ({ id }: UseRemoveArticleOptions) => {
     const newArticles = previousArticles.filter((article) => article.id !== id);
 
     // Optimistically update cache
