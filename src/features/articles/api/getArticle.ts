@@ -13,6 +13,8 @@ const fetcher = (url: string): Promise<Article.Model> => {
 export const useArticle = ({ id }: UseArticleOptions) => {
   const { data, error, isLoading } = useSWR(`/articles/${id}`, fetcher);
 
+  console.log("data", data);
+
   return {
     Article: data,
     isError: error,
