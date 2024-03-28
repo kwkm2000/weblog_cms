@@ -10,7 +10,7 @@ type UpdateArticleOptions = {
 export const useUpdateArticle = () => {
   const updateArticle = async (newArticleOption: UpdateArticleOptions) => {
     mutate(
-      `/article/${newArticleOption.id}`,
+      `/articles/${newArticleOption.id}`,
       async () => {
         const updateArticle = await Articles.update({
           id: newArticleOption.id,
