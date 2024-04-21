@@ -14,7 +14,7 @@
     "react-query-auth": "^2.2.0",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
-    "slate": "^0.94.0",
+    "slate": "^0.103.0",
     "slate-history": "^0.100.0",
     "slate-react": "^0.99.0",
     "swr": "^2.2.4",
