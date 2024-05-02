@@ -31,11 +31,7 @@ describe("TagCreator", () => {
   });
 
   it("tagの入力、送信", async () => {
-    const { debug } = render(
-      <QueryClientProvider client={queryClient}>
-        <TagCreator />
-      </QueryClientProvider>
-    );
+    const { debug } = render(<TagCreator />);
 
     const input = screen.getByTestId("tag-creator-input");
     const button = screen.getByTestId("tag-creator-button");
