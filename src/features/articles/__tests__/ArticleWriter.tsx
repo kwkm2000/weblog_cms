@@ -2,11 +2,8 @@ import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import ArticleWriter from "../components/ArticleWriter/ArticleWriter";
 import { Article } from "../models";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-
-const queryClient = new QueryClient();
 
 describe("ArticleWriter", () => {
   const handlers = [
@@ -75,12 +72,10 @@ describe("ArticleWriter", () => {
 
   it("必要な要素がレンダリングされている", () => {
     render(
-      <QueryClientProvider client={queryClient}>
-        <ArticleWriter
-          onCreateValue={mockOnCreateValue}
-          initialValue={mockInitialValue}
-        />
-      </QueryClientProvider>
+      <ArticleWriter
+        onCreateValue={mockOnCreateValue}
+        initialValue={mockInitialValue}
+      />
     );
 
     const articleTitle = screen.getByTestId("article-title");
@@ -96,12 +91,10 @@ describe("ArticleWriter", () => {
 
   it("記事のタイトルの入力", () => {
     const { debug } = render(
-      <QueryClientProvider client={queryClient}>
-        <ArticleWriter
-          onCreateValue={mockOnCreateValue}
-          initialValue={mockInitialValue}
-        />
-      </QueryClientProvider>
+      <ArticleWriter
+        onCreateValue={mockOnCreateValue}
+        initialValue={mockInitialValue}
+      />
     );
 
     fireEvent.change(screen.getByTestId("article-title"), {

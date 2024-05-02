@@ -1,10 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import TagCreator from "@/features/tags/components/TagCreator/TagCreator";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-
-const queryClient = new QueryClient();
 
 describe("TagCreator", () => {
   const handlers = [
@@ -22,11 +19,7 @@ describe("TagCreator", () => {
   afterAll(() => server.close());
 
   it("必要な要素がレンダリングされている", () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <TagCreator />
-      </QueryClientProvider>
-    );
+    render(<TagCreator />);
 
     const form = screen.getByTestId("tag-creator-form");
     const input = screen.getByTestId("tag-creator-input");
@@ -38,11 +31,7 @@ describe("TagCreator", () => {
   });
 
   it("tagの入力、送信", async () => {
-    const { debug } = render(
-      <QueryClientProvider client={queryClient}>
-        <TagCreator />
-      </QueryClientProvider>
-    );
+    const { debug } = render(<TagCreator />);
 
     const input = screen.getByTestId("tag-creator-input");
     const button = screen.getByTestId("tag-creator-button");

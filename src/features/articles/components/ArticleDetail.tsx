@@ -14,21 +14,21 @@ export default function ArticleDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const useUpdateArticleMutation = useUpdateArticle();
-  const removeArticleMutation = useRemoveArticle({ id: Number(id) });
+  const removeArticleMutation = useRemoveArticle();
   assertIsDefined(id);
   const { Article, isError, isLoading } = useArticle({ id: Number(id) });
-  const removeArticle = React.useCallback(async () => {
-    await removeArticleMutation.removeArticle();
+
+  // 記事の削除
+  const removeArticle = async () => {
+    await removeArticleMutation.removeArticle({ id: Number(id) });
     navigate("/");
-  }, [navigate, removeArticleMutation]);
-  const editArticle = React.useCallback(
-    async (value: Article.CreateValue) => {
-      await useUpdateArticleMutation.mutateAsync({ id: Number(id), value });
-      // Article.refetch(); // TODO キャッシュを更新するべきな気がするので直す
-      setIsEditing(false);
-    },
-    [useUpdateArticleMutation, id]
-  );
+  };
+
+  // 記事の編集
+  const editArticle = async (value: Article.CreateValue) => {
+    await useUpdateArticleMutation.updateArticle({ id: Number(id), value });
+    setIsEditing(false);
+  };
 
   if (isLoading) {
     return <p>loading...</p>;
