@@ -26,7 +26,6 @@ export default function ArticleDetail() {
 
   // 記事の編集
   const editArticle = async (value: Article.CreateValue) => {
-    console.log('editArticle', value);
     await useUpdateArticleMutation.updateArticle({ id: Number(id), value });
     setIsEditing(false);
   };
