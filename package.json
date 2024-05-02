@@ -33,7 +33,7 @@
     "@testing-library/user-event": "^14.4.3",
     "babel-jest": "^29.5.0",
     "eslint-import-resolver-alias": "^1.1.2",
-    "msw": "^1.2.2",
+    "msw": "^2.0.0",
     "path": "^0.12.7",
     "playwright-msw": "^2.2.1"
   },
