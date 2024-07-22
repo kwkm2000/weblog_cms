@@ -35,7 +35,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "msw": "^1.2.2",
     "path": "^0.12.7",
-    "playwright-msw": "^2.2.1"
+    "playwright-msw": "^3.0.0"
   },
   "scripts": {
     "start": "craco start",
